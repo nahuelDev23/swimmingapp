@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateCompetenciasTable extends Migration
+class AddCompetenciaIdCompetidors extends Migration
 {
     /**
      * Run the migrations.
@@ -13,12 +13,11 @@ class CreateCompetenciasTable extends Migration
      */
     public function up()
     {
-        Schema::create('competencias', function (Blueprint $table) {
-            $table->id();
-            $table->string('nombre_competencia');
-            $table->date('fecha_competencia');
-            $table->text('detalle');
-            $table->timestamps();
+        Schema::table('competidors',function(Blueprint $table){
+            $table->unsignedBigInteger('competencia_id')->default(0);
+            $table->foreign('competencia_id')->references('id')->on('competencias')
+                       ->onDelete('cascade')
+                       ->onUpdate('cascade');
         });
     }
 
@@ -29,6 +28,6 @@ class CreateCompetenciasTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('competencias');
+        //
     }
 }

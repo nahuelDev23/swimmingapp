@@ -17,4 +17,9 @@ class Competencia extends Model
     {
         return $this->hasMany(Cancheo::class); # una Competencia tiene muchas cancheos
     }
+
+    public function competidores()
+    {
+        return $this->hasMany(Competidor::class); # una Competencia tiene muchas competidores
+    }
 }

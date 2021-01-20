@@ -7,3 +7,6 @@ y en __aliases__ `'Debugbar' => Barryvdh\Debugbar\Facade::class,`
 Ahora hacemos la publicacion `php artisan vendor:publish --provider="Barryvdh\Debugbar\ServiceProvider"`
 
 Si todo salio bien en __config/__ se nos crea __debugbar__
+
+# INSTALO HTML COLLECTIVE
+`composer require laravelcollective/html`

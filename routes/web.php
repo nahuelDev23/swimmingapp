@@ -23,6 +23,10 @@ Route::get('/', function () {
 
 Route::get('/dashboard',[CompetenciaController::class,'index'])->middleware(['auth'])->name('dashboard');
 Route::get('competencias/{competencia}',[CompetenciaController::class,'show'])->middleware(['auth'])->name('competencias.show');
+
 Route::get('series/{serie}',[SerieController::class,'show'])->middleware(['auth'])->name('series.show');
+Route::get('series/create/{competencia}',[SerieController::class,'create'])->middleware(['auth'])->name('series.create');
+Route::post('series',[SerieController::class,'store'])->middleware(['auth'])->name('series.store');
+
 Route::get('resultados/{competencia}',[ResultadoController::class,'show'])->middleware(['auth'])->name('resultados.show');
 require __DIR__.'/auth.php';

@@ -3,25 +3,41 @@
 namespace App\Http\Controllers;
 
 use App\Models\Cancheo;
+use App\Models\Categoria;
 use App\Models\Competencia;
+use App\Models\Prueba;
 use Illuminate\Http\Request;
 
 class ResultadoController extends Controller
 {
     public function show(Competencia $competencia){
-       $resultadoPreInfantilesPrueba1 = Cancheo::with('competidor','serie')
-       ->where('competencia_id',$competencia->id)
-       ->whereHas('competidor',function($query){
-            return $query->where('categoria_id', 1);
-       })
-       ->whereHas('serie',function($query){
-            return $query->where('prueba_id', '1');
-        })
-        ->orderBy('tiempo','asc')
-       ->get();
+        $pruebas = Prueba::all();
+        $categorias = Categoria::all();
+        $resultado = [];
+        foreach($pruebas as $prueba){
+            foreach($categorias as  $categoria){
+                array_push($resultado, $this->makeResultados($categoria->id,$prueba->id,$competencia->id));
+            }
+        }
+        return view('resultados/show',[ 'resultado' => $resultado]);
 
-       return view('resultados/show',[
-           'resultadoPreInfantilesPrueba1' => $resultadoPreInfantilesPrueba1
-       ]);
     }
+
+    public function makeResultados($categoria_id,$prueba_id,$competencia){
+        $resultado = Cancheo::with('competidor','serie')
+        ->where('competencia_id',$competencia)
+        ->whereHas('competidor',function($query) use ($categoria_id){
+             return $query->where('categoria_id', $categoria_id);
+        })
+        ->whereHas('serie',function($query) use ($prueba_id) {
+             return $query->where('prueba_id', $prueba_id);
+         })
+         ->orderBy('tiempo','asc')
+        ->get();
+        
+        return $resultado;
+        }  
 }
+
+    
+

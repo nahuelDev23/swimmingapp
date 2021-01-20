@@ -13,4 +13,9 @@ class Club extends Model
     {
         return $this->hasMany(Competidor::class); # un Club tiene muchos competidores
     }
+
+    public function users()
+    {
+        return $this->hasMany(Club::class); # un Competidor pertenece a un club
+    }
 }

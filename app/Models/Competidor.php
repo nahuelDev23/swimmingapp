@@ -19,6 +19,11 @@ class Competidor extends Model
         return $this->belongsTo(Club::class); # un Competidor pertenece a un club
     }
 
+    public function competencia()
+    {
+        return $this->belongsTo(Competencia::class); # un Competidor pertenece a una competencia
+    }
+
     public function cancheos()
     {
         return $this->hasMany(Cancheo::class); # un Competidor pertenece a muchos cancheos

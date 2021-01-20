@@ -1,0 +1,13 @@
+.table__resultados {
+    &_tr:nth-child(odd) {
+        background-color: rgba(0, 0, 0, .1);
+    }
+    &_tr:hover {
+        background-color: rgb(253, 115, 115);
+    }
+    &_caption {
+        font-weight: bold;
+        font-size: 1.3rem;
+        color: rgba(3, 3, 3, .8)
+    }
+}
