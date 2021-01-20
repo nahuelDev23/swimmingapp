@@ -18,6 +18,7 @@ class CompetenciaController extends Controller
 
     public function show(Competencia $competencia)
     {
+      
         $series = $competencia->series;
         $pruebas = Prueba::all();
         return view('competencias/show',[

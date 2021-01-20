@@ -22,4 +22,9 @@ class Competencia extends Model
     {
         return $this->hasMany(Competidor::class); # una Competencia tiene muchas competidores
     }
+
+    public function inscripcionPrueba()
+    {
+        return $this->hasMany(InscripcionPrueba::class); 
+    }
 }

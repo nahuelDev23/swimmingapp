@@ -18,4 +18,9 @@ class Prueba extends Model
     {
         return $this->hasMany(Serie::class); # una Prueba pertenece a muchas series
     }
+
+    public function inscripcionPrueba()
+    {
+        return $this->hasMany(InscripcionPrueba::class); 
+    }
 }
