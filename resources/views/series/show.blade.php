@@ -80,6 +80,35 @@
                         @endforeach
                       
                     </table>
+                    
+                   </div>
+                   <div>  
+                    {{-- @foreach ($cancheo_creacion as  $index =>$cc)
+                        <table>
+                            <caption>Serie {{$index+1}}</caption>
+                            <tr>
+                                <th>Carril</th>
+                                <th>Nombre</th>
+                                <th>Apellido</th>
+                                <th>Categoria</th>
+                                <th>Tiempo</th>
+                                <th>Club</th>
+                                <th>Sexo</th>
+                            </tr>
+                            @foreach ($cc as $index => $c)
+                            <tr>
+                                <td>{{$carriles[$index]}}</td>
+                                <td> {{$c->nombre}}</td>
+                                <td> {{$c->apellido}}</td>
+                                <td> {{$c->competidor->categoria->nombre_categoria}}</td>
+                                <td></td>
+                                <td> {{$c->competidor->club->nombre_club}}</td>
+                                <td> {{$c->sexo}}</td>
+                            </tr> 
+                            @endforeach
+                        </table>
+                    @endforeach --}}
+                    <tr></tr>
                    </div>
                 </div>
                 </div>

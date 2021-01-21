@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class Cancheo extends Model
 {
     use HasFactory;
-
+    public $guard =[];
     public function serie()
     {
         return $this->belongsTo(Serie::class); # un Cancheo pertenece a una serie

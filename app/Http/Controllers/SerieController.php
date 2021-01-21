@@ -24,6 +24,7 @@ class SerieController extends Controller
     }
     public function store(Request $request)
     {
+        
         $serie = new Serie;
         $serie->nombre_serie=$request->nombre_serie;
         $serie->prueba_id=$request->prueba_id;
@@ -64,7 +65,7 @@ class SerieController extends Controller
         $cancha = 6;
        
         $rs = [];
-        foreach($competidoresAptos2 as $key => $item){
+        foreach($competidoresAptos2 as $item){
             array_push($rs,$item);
         }
         /**
@@ -73,19 +74,42 @@ class SerieController extends Controller
          */
         $cantidad_series = round($competidoresAptos2->count()/$cancha);
         $cantidad_competidores =  round($competidoresAptos2->count()/round($cantidad_series));
-      
+        $cancheo_creacion = [];
        if($cantidad_competidores >= 7){
-            dd(array_chunk($rs,($cantidad_competidores-2)));
-       }else if($cantidad_competidores <= 4){
-            dd($this->partition($rs,$cantidad_series));
-       }
-    
-        $cancheo = Cancheo::where('serie_id',$serie->id)->with('competidor')->get();
 
+        $cancheo_creacion =array_chunk($rs,($cantidad_competidores-2));
+
+       }else if($cantidad_competidores <= 4){
+
+        $cancheo_creacion =$this->partition($rs,$cantidad_series);
+        
+       }
+        
+        $carriles = ['4','3','5','2','1','6'];
+    //    foreach($cancheo_creacion as $index => $can){
+    //         $s = new Serie;
+    //         $s->nombre_serie='Serie '.$index;
+    //         $s->prueba_id=$can[0]->prueba_id;
+    //         $s->competencia_id=$can[0]->competencia_id;
+    //         $s->save();
+    //        foreach($can as  $index =>$c){
+
+              
+
+    //             $canch = new Cancheo;
+    //             $canch->carril = $carriles[$index];
+    //             $canch->competidor_id = $c->competidor_id;
+    //             $canch->serie_id = $s->id;
+    //             $canch->save();
+    //        }  
+    //    }
+       $cancheo = Cancheo::where('serie_id',$serie->id)->with('competidor')->get();
         return view('series/show',[
             'serie' => $serie,
             'cancheo'=>$cancheo,
             'competidoresAptos'=>$competidoresAptos2,
+            'cancheo_creacion' => $cancheo_creacion,
+            'carriles' => $carriles,
         ]);
     }
 

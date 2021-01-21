@@ -27,4 +27,8 @@ class CompetenciaController extends Controller
             'pruebas'=>$pruebas,
         ]);
     }
+
+    public function generarSeriesCancheos(Competencia $competencia){
+        dd($competencia->series);
+    }
 }

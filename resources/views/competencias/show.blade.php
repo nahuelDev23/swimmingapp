@@ -13,6 +13,7 @@
                     @if(Auth::user()->is_admin == 1)
                     <a href="">Crear pruebas</a>
                     <a href="{{route('series.create',$competencia->id)}}">Crear series</a>
+                    <a class="bg-gray-400 text-gray-50" href="{{route('competencias.generarSeriesCancheos',$competencia->id)}}">Generar Series + cancheos</a>
                     <a href="">Agregar competidor</a>
                 @else
                     <a href="">Agregar competidor</a>
