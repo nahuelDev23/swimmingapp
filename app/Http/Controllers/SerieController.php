@@ -35,30 +35,72 @@ class SerieController extends Controller
 
     public function show(Serie $serie)
     {
-        /**
-         * cambiar esto por los de inscripcion prueba
-         */
-        // $competidoresAptos = Competidor::where('categoria_id',$serie->prueba->id)
-        // ->where('competencia_id',$serie->competencia_id)
-        // ->where('tiempo_competidor','!=','00:00:00')
-        // ->orderBy('tiempo_competidor','asc')
-        // ->get();
+        $sexo = '';
 
-        $competidoresAptos = InscripcionPrueba::with('prueba','competidor')
-        ->whereHas('competidor',function($query) use ($serie){
-            return $query
-            ->where('prueba_id', $serie->prueba_id)
-            ->where('competencia_id',$serie->competencia_id)
-            ->where('categoria_id',$serie->prueba->categoria_id);
-       })
-        ->get();
-        
+        if($serie->prueba->sexo == 'VARONES'){
+            $sexo = 'M';
+        }else if($serie->prueba->sexo == 'MUJERES'){
+            $sexo = 'F';
+        }else{
+            $sexo = '';
+        };
+
+        if($sexo != ''){
+            $competidoresAptos2 = InscripcionPrueba::join('competidors','inscripcion_pruebas.competidor_id','=','competidors.id')
+            ->where('inscripcion_pruebas.prueba_id',$serie->prueba_id)
+            ->where('competidors.competencia_id',$serie->competencia_id)
+            ->where('competidors.categoria_id',$serie->prueba->categoria_id)
+            ->where('competidors.sexo',$sexo)
+            ->orderBy('competidors.tiempo_competidor','asc')
+            ->get();
+        }else{
+            $competidoresAptos2 = InscripcionPrueba::join('competidors','inscripcion_pruebas.competidor_id','=','competidors.id')
+            ->where('inscripcion_pruebas.prueba_id',$serie->prueba_id)
+            ->where('competidors.competencia_id',$serie->competencia_id)
+            ->where('competidors.categoria_id',$serie->prueba->categoria_id)
+            ->orderBy('competidors.tiempo_competidor','asc')
+            ->get();
+        }
+        $cancha = 6;
+       
+        $rs = [];
+        foreach($competidoresAptos2 as $key => $item){
+            array_push($rs,$item);
+        }
+        /**
+         * array chunk tiene que recibit un array , si pongo $competidoresAptos2 al ser una coleccion no es valido
+         * por eso lo paso a rs , para que sea array..
+         */
+        $cantidad_series = round($competidoresAptos2->count()/$cancha);
+        $cantidad_competidores =  round($competidoresAptos2->count()/round($cantidad_series));
+      
+       if($cantidad_competidores >= 7){
+            dd(array_chunk($rs,($cantidad_competidores-2)));
+       }else if($cantidad_competidores <= 4){
+            dd($this->partition($rs,$cantidad_series));
+       }
+    
         $cancheo = Cancheo::where('serie_id',$serie->id)->with('competidor')->get();
+
         return view('series/show',[
             'serie' => $serie,
             'cancheo'=>$cancheo,
-            'competidoresAptos'=>$competidoresAptos,
+            'competidoresAptos'=>$competidoresAptos2,
         ]);
+    }
+
+    public function partition( $list, $p ) {
+        $listlen = count( $list );
+        $partlen = floor( $listlen / $p );
+        $partrem = $listlen % $p;
+        $partition = array();
+        $mark = 0;
+        for ($px = 0; $px < $p; $px++) {
+            $incr = ($px < $partrem) ? $partlen + 1 : $partlen;
+            $partition[$px] = array_slice( $list, $mark, $incr );
+            $mark += $incr;
+        }
+        return $partition;
     }
 }
 
