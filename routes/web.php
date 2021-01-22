@@ -5,7 +5,7 @@ use App\Http\Controllers\CompetenciaController;
 use App\Http\Controllers\ResultadoController;
 use App\Http\Controllers\SerieController;
 use App\Http\Controllers\UserController;
-use App\Http\Controllers\CompetidorController;
+use App\Http\Controllers\AlumnoController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -37,9 +37,10 @@ Route::get('users/reset-password')->middleware(['auth'])->name('users.reset-pass
 Route::post('users/reset-password',[UserController::class,'reset_password'])->middleware(['auth'])->name('users.reset-password');
 
 
-// Route::resource('competidores',CompetidorController::class,['except' => ['create','edit']])->middleware(['auth']);
-// Route::get('competidores/create/{competencia}',[CompetidorController::class,'create'])->middleware(['auth'])->name('competidores.create');
-// Route::get('competidores/edit/{competencia}',[CompetidorController::class,'edit'])->middleware(['auth'])->name('competidores.edit');
+Route::get('alumnos/create',[AlumnoController::class,'create'])->middleware(['auth'])->name('alumnos.create');
+Route::get('alumnos/edit',[AlumnoController::class,'edit'])->middleware(['auth'])->name('alumnos.edit');
+Route::resource('alumnos',AlumnoController::class,['except' => ['create','edit']])->middleware(['auth']);
+
 
 Route::get('resultados/{competencia}',[ResultadoController::class,'show'])->middleware(['auth'])->name('resultados.show');
 require __DIR__.'/auth.php';
