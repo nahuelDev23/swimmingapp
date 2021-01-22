@@ -58,7 +58,7 @@
                         </table>
                     </div>
                    <div>
-                    <table>
+                    {{-- <table>
                         <caption>Competidores aptos para la prueba</caption>
                         <tr>
                             <th>Nombre</th>
@@ -79,7 +79,7 @@
                         </tr>
                         @endforeach
                       
-                    </table>
+                    </table> --}}
                     
                    </div>
                    <div>  
