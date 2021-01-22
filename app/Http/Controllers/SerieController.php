@@ -37,7 +37,7 @@ class SerieController extends Controller
     public function show(Serie $serie)
     {
         
-       $cancheo = Cancheo::where('serie_id',$serie->id)->with('competidor')->get();
+       $cancheo = Cancheo::where('serie_id',$serie->id)->with('competidor')->orderBy('carril','asc')->get();
         return view('series/show',[
             'serie' => $serie,
             'cancheo'=>$cancheo,

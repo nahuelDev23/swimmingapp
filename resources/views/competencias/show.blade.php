@@ -3,7 +3,7 @@
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
             <h1>{{$competencia->nombre_competencia}}</h1>
             <p>{{$competencia->detalle}}</p>
-            <h2><a href="{{route('resultados.show',$series[0]->competencia_id)}}">Ver resultados</a></h2>
+            <h2><a href="{{route('resultados.show',$competencia->id)}}">Ver resultados</a></h2>
         </h2>
     </x-slot>
     <div class="py-12">
