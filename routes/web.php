@@ -4,6 +4,7 @@
 use App\Http\Controllers\CompetenciaController;
 use App\Http\Controllers\ResultadoController;
 use App\Http\Controllers\SerieController;
+use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -28,6 +29,8 @@ Route::get('competencias/generarSeriesCancheos/{competencia}',[CompetenciaContro
 Route::get('series/{serie}',[SerieController::class,'show'])->middleware(['auth'])->name('series.show');
 Route::get('series/create/{competencia}',[SerieController::class,'create'])->middleware(['auth'])->name('series.create');
 Route::post('series',[SerieController::class,'store'])->middleware(['auth'])->name('series.store');
+
+Route::resource('users',UserController::class)->middleware(['auth']);
 
 Route::get('resultados/{competencia}',[ResultadoController::class,'show'])->middleware(['auth'])->name('resultados.show');
 require __DIR__.'/auth.php';
