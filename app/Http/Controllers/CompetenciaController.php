@@ -81,7 +81,7 @@ class CompetenciaController extends Controller
                 array_push($rs, $item);
             }
             /**
-             * ?array chunk tiene que recibit un array , si pongo $competidoresAptos al ser una coleccion no es valido
+             * ?array chunk tiene que recibir un array , si pongo $competidoresAptos al ser una coleccion no es valido
              * ?por eso lo paso a rs , para que sea array..
              */
             $cantidad_series = round($competidoresAptos->count() / $cancha) == 0 ? 1 : round($competidoresAptos->count() / $cancha);

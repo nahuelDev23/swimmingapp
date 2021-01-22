@@ -5,6 +5,7 @@ use App\Http\Controllers\CompetenciaController;
 use App\Http\Controllers\ResultadoController;
 use App\Http\Controllers\SerieController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\CompetidorController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -35,6 +36,10 @@ Route::resource('users',UserController::class)->middleware(['auth']);
 Route::get('users/reset-password')->middleware(['auth'])->name('users.reset-password');
 Route::post('users/reset-password',[UserController::class,'reset_password'])->middleware(['auth'])->name('users.reset-password');
 
+
+// Route::resource('competidores',CompetidorController::class,['except' => ['create','edit']])->middleware(['auth']);
+// Route::get('competidores/create/{competencia}',[CompetidorController::class,'create'])->middleware(['auth'])->name('competidores.create');
+// Route::get('competidores/edit/{competencia}',[CompetidorController::class,'edit'])->middleware(['auth'])->name('competidores.edit');
 
 Route::get('resultados/{competencia}',[ResultadoController::class,'show'])->middleware(['auth'])->name('resultados.show');
 require __DIR__.'/auth.php';
