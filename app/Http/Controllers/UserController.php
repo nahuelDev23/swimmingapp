@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\User;
 use App\Models\Club;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 class UserController extends Controller
 {
@@ -117,6 +118,20 @@ class UserController extends Controller
      */
     public function destroy($id)
     {
-        //
+       
+    }
+
+    public function reset_password(Request $request){
+        $this->validate($request, [
+            'password' => 'required|confirmed|min:6',
+        ]);
+
+        $id = Auth::id();
+        $user = User::find($id);
+        $user->password = Hash::make($request->password);
+        $user->password_changed_at = 1;
+        $user->update();
+
+        return redirect('dashboard');
     }
 }

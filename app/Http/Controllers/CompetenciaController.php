@@ -8,16 +8,22 @@ use App\Models\Serie;
 use Illuminate\Http\Request;
 use App\Models\InscripcionPrueba;
 use App\Models\Cancheo;
-
+use Illuminate\Support\Facades\Auth;
 
 class CompetenciaController extends Controller
 {
     public function index()
     {
-        $competencias = Competencia::select('id', 'nombre_competencia', 'detalle', 'fecha_competencia')->get();
-        return view('dashboard', [
-            'competencias' => $competencias,
-        ]);
+        if ((Auth::user()->password_changed_at == null)) {
+            return view('users/reset-password');
+         }
+         else{
+            $competencias = Competencia::select('id', 'nombre_competencia', 'detalle', 'fecha_competencia')->get();
+            return view('dashboard', [
+                'competencias' => $competencias,
+            ]);
+         }
+       
     }
 
     public function show(Competencia $competencia)

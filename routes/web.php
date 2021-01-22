@@ -32,5 +32,9 @@ Route::post('series',[SerieController::class,'store'])->middleware(['auth'])->na
 
 Route::resource('users',UserController::class)->middleware(['auth']);
 
+Route::get('users/reset-password')->middleware(['auth'])->name('users.reset-password');
+Route::post('users/reset-password',[UserController::class,'reset_password'])->middleware(['auth'])->name('users.reset-password');
+
+
 Route::get('resultados/{competencia}',[ResultadoController::class,'show'])->middleware(['auth'])->name('resultados.show');
 require __DIR__.'/auth.php';
