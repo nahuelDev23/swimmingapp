@@ -5,6 +5,7 @@ use App\Http\Controllers\CompetenciaController;
 use App\Http\Controllers\ResultadoController;
 use App\Http\Controllers\SerieController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\AlumnoController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -34,6 +35,11 @@ Route::resource('users',UserController::class)->middleware(['auth']);
 
 Route::get('users/reset-password')->middleware(['auth'])->name('users.reset-password');
 Route::post('users/reset-password',[UserController::class,'reset_password'])->middleware(['auth'])->name('users.reset-password');
+
+
+Route::get('alumnos/create',[AlumnoController::class,'create'])->middleware(['auth'])->name('alumnos.create');
+Route::get('alumnos/edit',[AlumnoController::class,'edit'])->middleware(['auth'])->name('alumnos.edit');
+Route::resource('alumnos',AlumnoController::class,['except' => ['create','edit']])->middleware(['auth']);
 
 
 Route::get('resultados/{competencia}',[ResultadoController::class,'show'])->middleware(['auth'])->name('resultados.show');

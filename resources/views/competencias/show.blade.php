@@ -18,7 +18,11 @@
                             cancheos</a>
                         <a href="">Agregar competidor</a>
                     @else
-                        <a href="">Agregar competidor</a>
+                        {{-- Agrego a pruebas_inscripciones --}}
+                        <a href="">Inscribir competidor a prueba</a>
+                        <br>
+                         {{-- Agrego a competidors los tiempos de cada prueba por alumno--}}
+                        <a href="">Agregar tiempos de pruebas para este evento</a>
                     @endif
                     <div class="grid grid-cols-2 gap-4">
 

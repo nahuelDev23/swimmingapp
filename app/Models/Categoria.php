@@ -14,6 +14,11 @@ class Categoria extends Model
         return $this->hasMany(Competidor::class); # una Categoria tiene muchos competidores
     }
 
+    public function alumnos()
+    {
+        return $this->hasMany(Alumnos::class);
+    }
+
     public function pruebas()
     {
         return $this->hasMany(Prueba::class); # una Categoria tiene muchas pruebas
