@@ -43,12 +43,8 @@ class CompetenciaController extends Controller
         $this->deleteSeriesPorCompetencia($competencia->id);
        
         $sexo = '';
-        /**
-         * pruebas tiene q tener competencia_id
-         * por ahora uso todas las pruebas
-         */
-        $pruebas = Prueba::all();
-        foreach ($pruebas as $prueba) {
+    
+        foreach ($competencia->pruebas as $prueba) {
             if ($prueba->sexo == 'VARONES') {
                 $sexo = 'M';
             } else if ($prueba->sexo == 'MUJERES') {
@@ -69,8 +65,9 @@ class CompetenciaController extends Controller
                 $competidoresAptos = InscripcionPrueba::join('competidors', 'inscripcion_pruebas.competidor_id', '=', 'competidors.id')
                     ->where('inscripcion_pruebas.prueba_id', $prueba->id)
                     ->where('competidors.competencia_id', $competencia->id)
-                    ->where('competidors.categoria_id', $prueba->categoria_id)
-                    ->orderBy('competidors.tiempo_competidor', 'asc')
+                    ->join('alumnos','competidors.alumno_id','=','alumnos.id')
+                    ->where('alumnos.categoria_id', $prueba->categoria_id)
+                    ->orderBy('competidors.competidor_tiempo', 'asc')
                     ->get();
             }
 

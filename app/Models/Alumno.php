@@ -14,8 +14,18 @@ class Alumno extends Model
         return $this->belongsTo(Categoria::class); # un alumno pertenece a una categoria
     }
 
+    public function competidores()
+    {
+        return $this->hasMany(Competidor::class); 
+    }
+
+    public function competencia()
+    {
+        return $this->belongsTo(Competencia::class); # un Competidor pertenece a una competencia
+    }
+
     public function club()
     {
-        return $this->belongsTo(Club::class); # un alumno pertenece a un club
+        return $this->belongsTo(Club::class); 
     }
 }

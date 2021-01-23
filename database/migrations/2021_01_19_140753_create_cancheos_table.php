@@ -18,7 +18,13 @@ class CreateCancheosTable extends Migration
             $table->integer('carril');
             $table->unsignedBigInteger('competidor_id')->nullable();
             $table->unsignedBigInteger('serie_id')->nullable();
+            $table->unsignedBigInteger('competencia_id')->nullable();
+         
             $table->time('tiempo')->nullable();
+            
+            $table->foreign('competencia_id')->references('id')->on('competencias')
+            ->onDelete('cascade')
+            ->onUpdate('cascade');
             
             $table->foreign('competidor_id')->references('id')->on('competidors')
             ->onDelete('cascade')

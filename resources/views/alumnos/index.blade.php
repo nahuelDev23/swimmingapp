@@ -1,7 +1,7 @@
 <x-app-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            <h1>Alumnos pertenecientes al club {{$alumnos[0]->club->nombre_club}}</h1>
+            <h1>Alumnos pertenecientes al club {{Auth::user()->club != null ? Auth::user()->club->nombre_club : 'x'}}</h1>
         </h2>
        
     </x-slot>

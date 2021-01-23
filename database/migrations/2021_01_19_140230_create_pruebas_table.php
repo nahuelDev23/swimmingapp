@@ -13,6 +13,9 @@ class CreatePruebasTable extends Migration
      */
     public function up()
     {
+        /**
+         * CAMBIAR TIPO DE NOMBRE_PRUEBA
+         */
         Schema::create('pruebas', function (Blueprint $table) {
             $table->id();
             $table->integer('nombre_prueba');
@@ -21,6 +24,11 @@ class CreatePruebasTable extends Migration
             $table->string('sexo');
             $table->unsignedBigInteger('categoria_id')->nullable();
             $table->string('nivel');
+            $table->unsignedBigInteger('competencia_id')->nullable();
+
+            $table->foreign('competencia_id')->references('id')->on('competencias')
+                       ->onDelete('cascade')
+                       ->onUpdate('cascade');
 
             $table->foreign('categoria_id')->references('id')->on('categorias')
             ->onDelete('cascade')
