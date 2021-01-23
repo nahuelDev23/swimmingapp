@@ -30,7 +30,7 @@ class CompetenciaController extends Controller
     {
 
         $series = $competencia->series;
-        $pruebas = Prueba::all();
+        $pruebas = Prueba::where('competencia_id',$competencia->id)->get();
         return view('competencias/show', [
             'competencia' => $competencia,
             'series' => $series,
@@ -71,6 +71,10 @@ class CompetenciaController extends Controller
                     ->get();
             }
 
+            /**
+             * !agregar  ala tabla competencias la cantidad de carriles que va a tener la competencia
+             * !y que este valor sea esa calumna
+             */
             $cancha = 6;
 
             $rs = [];

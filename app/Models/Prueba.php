@@ -28,4 +28,9 @@ class Prueba extends Model
     {
         return $this->hasMany(InscripcionPrueba::class); 
     }
+
+    public function competidor()
+    {
+        return $this->hasMany(Competidor::class); 
+    }
 }

@@ -37,4 +37,8 @@ class Competidor extends Model
     {
         return $this->hasMany(InscripcionPrueba::class); 
     }
+    public function prueba()
+    {
+        return $this->belongsTo(Prueba::class); 
+    }
 }
