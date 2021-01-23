@@ -30,7 +30,7 @@ class CompetenciaController extends Controller
     {
 
         $series = $competencia->series;
-        $pruebas = Prueba::all();
+        $pruebas = Prueba::where('competencia_id',$competencia->id)->get();
         return view('competencias/show', [
             'competencia' => $competencia,
             'series' => $series,
@@ -43,12 +43,8 @@ class CompetenciaController extends Controller
         $this->deleteSeriesPorCompetencia($competencia->id);
        
         $sexo = '';
-        /**
-         * pruebas tiene q tener competencia_id
-         * por ahora uso todas las pruebas
-         */
-        $pruebas = Prueba::all();
-        foreach ($pruebas as $prueba) {
+    
+        foreach ($competencia->pruebas as $prueba) {
             if ($prueba->sexo == 'VARONES') {
                 $sexo = 'M';
             } else if ($prueba->sexo == 'MUJERES') {
@@ -69,11 +65,16 @@ class CompetenciaController extends Controller
                 $competidoresAptos = InscripcionPrueba::join('competidors', 'inscripcion_pruebas.competidor_id', '=', 'competidors.id')
                     ->where('inscripcion_pruebas.prueba_id', $prueba->id)
                     ->where('competidors.competencia_id', $competencia->id)
-                    ->where('competidors.categoria_id', $prueba->categoria_id)
-                    ->orderBy('competidors.tiempo_competidor', 'asc')
+                    ->join('alumnos','competidors.alumno_id','=','alumnos.id')
+                    ->where('alumnos.categoria_id', $prueba->categoria_id)
+                    ->orderBy('competidors.competidor_tiempo', 'asc')
                     ->get();
             }
 
+            /**
+             * !agregar  ala tabla competencias la cantidad de carriles que va a tener la competencia
+             * !y que este valor sea esa calumna
+             */
             $cancha = 6;
 
             $rs = [];

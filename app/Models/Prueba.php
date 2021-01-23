@@ -14,6 +14,11 @@ class Prueba extends Model
         return $this->belongsTo(Categoria::class); # una Prueba pertenece a una categoria
     }
 
+    public function competencia()
+    {
+        return $this->belongsTo(Competencia::class); # una Prueba pertenece a una competencia
+    }
+
     public function serie()
     {
         return $this->hasMany(Serie::class); # una Prueba pertenece a muchas series
@@ -22,5 +27,10 @@ class Prueba extends Model
     public function inscripcionPrueba()
     {
         return $this->hasMany(InscripcionPrueba::class); 
+    }
+
+    public function competidor()
+    {
+        return $this->hasMany(Competidor::class); 
     }
 }

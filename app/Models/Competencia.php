@@ -27,4 +27,10 @@ class Competencia extends Model
     {
         return $this->hasMany(InscripcionPrueba::class); 
     }
+
+    public function pruebas()
+    {
+        return $this->hasMany(Prueba::class); 
+    }
+    
 }

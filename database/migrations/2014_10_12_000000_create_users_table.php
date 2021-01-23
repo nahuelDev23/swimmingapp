@@ -20,6 +20,13 @@ class CreateUsersTable extends Migration
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->boolean('is_admin')->default(0);
+            $table->unsignedBigInteger('club_id')->nullable();
+            $table->unsignedBigInteger('password_changed_at')->nullable();
+
+            $table->foreign('club_id')->references('id')->on('clubs')->defaul(null)
+                       ->onDelete('cascade')
+                       ->onUpdate('cascade');
+
             $table->rememberToken();
             $table->timestamps();
         });

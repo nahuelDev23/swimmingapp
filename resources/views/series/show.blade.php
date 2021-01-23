@@ -45,12 +45,12 @@
                             @foreach ($cancheo as $c)
                             <tr>
                                 <td>{{$c->carril}}</td>
-                                <td>{{$c->competidor->nombre}}</td>
-                                <td>{{$c->competidor->apellido}}</td>
-                                <td>{{$c->competidor->categoria->nombre_categoria}}</td>
+                                <td>{{$c->competidor->alumno->nombre}}</td>
+                                <td>{{$c->competidor->alumno->apellido}}</td>
+                                <td>{{$c->competidor->alumno->categoria->nombre_categoria}}</td>
                                 <td>{{$c->tiempo}}</td>
-                                <td>{{$c->competidor->club->nombre_club}}</td>
-                                <td>{{$c->competidor->sexo}}</td>
+                                <td>{{$c->competidor->alumno->club->nombre_club}}</td>
+                                <td>{{$c->competidor->alumno->sexo}}</td>
                                 <td>Editar Cancheo</td>
                             </tr>
                             @endforeach

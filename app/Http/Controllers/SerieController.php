@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Alumno;
 use App\Models\Cancheo;
 use App\Models\Competencia;
 use App\Models\Competidor;
@@ -38,9 +39,14 @@ class SerieController extends Controller
     {
 
         $cancheo = Cancheo::where('serie_id', $serie->id)->with('competidor')->orderBy('carril', 'asc')->get();
+        /*
+        * hacer relacion de muchos a muchos con tiempos y alumnos
+        */
+        $competidor = Alumno::with('competidores')->get();
         return view('series/show', [
             'serie' => $serie,
             'cancheo' => $cancheo,
+            'competidor' => $competidor,
         ]);
     }
 

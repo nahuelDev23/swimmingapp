@@ -1,0 +1,1 @@
+al final no se usa create series ni edit porque se generan automaticamente

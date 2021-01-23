@@ -9,19 +9,23 @@ class Competidor extends Model
 {
     use HasFactory;
 
-    public function categoria()
-    {
-        return $this->belongsTo(Categoria::class); # un Competidor pertenece a una categoria
-    }
+    // public function categoria()
+    // {
+    //     return $this->belongsTo(Categoria::class); # un Competidor pertenece a una categoria
+    // }
 
-    public function club()
-    {
-        return $this->belongsTo(Club::class); # un Competidor pertenece a un club
-    }
+    // public function club()
+    // {
+    //     return $this->belongsTo(Club::class); # un Competidor pertenece a un club
+    // }
 
+    public function alumno()
+    {
+        return $this->belongsTo(Alumno::class); # un Competidor/tiempo tiene un alumno
+    }
     public function competencia()
     {
-        return $this->belongsTo(Competencia::class); # un Competidor pertenece a una competencia
+        return $this->belongsTo(Competencia::class); # un Competidor/tiempo pertenece a una competencia
     }
 
     public function cancheos()
@@ -32,5 +36,9 @@ class Competidor extends Model
     public function inscripcionPrueba()
     {
         return $this->hasMany(InscripcionPrueba::class); 
+    }
+    public function prueba()
+    {
+        return $this->belongsTo(Prueba::class); 
     }
 }
