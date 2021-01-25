@@ -11,6 +11,7 @@
 
     {!! FORM::hidden('competencia_id',$competencia_id,null,['class'=>'form-control']) !!}
 
+
 </div>
 
 <div class="form-group">

@@ -27,7 +27,8 @@ class ResultadoController extends Controller
         $resultado = Cancheo::with('competidor','serie')
         ->where('competencia_id',$competencia)
         ->whereHas('competidor',function($query) use ($categoria_id){
-             return $query->where('categoria_id', $categoria_id);
+            $query->join('alumnos','competidors.alumno_id','=','alumnos.id');
+             return $query->where('alumnos.categoria_id', $categoria_id);
         })
         ->whereHas('serie',function($query) use ($prueba_id) {
              return $query->where('prueba_id', $prueba_id);

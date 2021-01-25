@@ -11,12 +11,14 @@
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 bg-white border-b border-gray-200">
                     @if (Auth::user()->is_admin == 1)
-                        <a href="">Crear pruebas</a>
+                        <a href="{{route('pruebas.create',$competencia->id)}}">Crear pruebas</a>
                         <a class="bg-gray-400 text-gray-50"
                             href="{{ route('competencias.generarSeriesCancheos', $competencia->id) }}">Generar Series +
                             cancheos</a>
                         {{-- El admin puede agregar un competidor de cualquier club    --}}
-                        <a href="">Agregar competidor</a>
+                        <a href="">Inscribir competidor a prueba (admin)</a>
+                        {{-- El admin puede agregar un el tiempo de un competidor de cualquier club    --}}
+                        <a href="">Agregar tiempos de pruebas para este evento (admin)</a>
                     @else
                         {{-- Agrego a pruebas_inscripciones --}}
                         {{-- El entrenador puede agregar un competidor a una pruba que sea de su club --}}

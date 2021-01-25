@@ -81,6 +81,7 @@ class CompetidorController extends Controller
         if($checker_if_alumno_already_exist_in_competidor->count() > 0 ){
             return back()->with('message','El alumno que estás intentando anotar ya esta registrado');
         }else{
+          
             $competidor = new Competidor;
             $competidor->competencia_id = $request->competencia_id;
             $competidor->alumno_id = $request->alumno_id;

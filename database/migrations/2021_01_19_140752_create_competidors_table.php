@@ -19,7 +19,7 @@ class CreateCompetidorsTable extends Migration
             $table->unsignedBigInteger('alumno_id')->nullable();
             $table->unsignedBigInteger('prueba_id')->nullable();
             $table->time('competidor_tiempo')->default('23:59:59');
-            
+           
             $table->foreign('prueba_id')->references('id')->on('pruebas')
             ->onDelete('cascade')
             ->onUpdate('cascade');
