@@ -69,9 +69,9 @@ class InscripcionPruebaController extends Controller
         /**
          * chekear si el competidor que se va a inscribir tiene  registrado tiempo en la prueba 
          */
-        $checker_prueba_competidor = Competidor::where('id',$request->competidor_id)->select('prueba_id')->get();
-
-        if($checker_prueba_competidor != $request->prueba_id){
+        $checker_prueba_competidor = Competidor::where('id',$request->competidor_id)->select('prueba_id')->first();
+ 
+        if($checker_prueba_competidor->prueba_id != $request->prueba_id){
             return back()->with('message','El alumno que estás intentando anotar no tiene  tiempo registrado para la prueba');
         }
         $checker_alumno_sexo = Competidor::join('alumnos','competidors.alumno_id','=','alumnos.id')

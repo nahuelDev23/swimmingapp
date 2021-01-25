@@ -42,9 +42,13 @@
                             @endforeach
                         </table>
 
+                       
                         @foreach($rs as $r)
+                        @if($r->count() != 0)
                         <table class="table__resultados text-center">
+                           
                             <caption class="table__resultados_caption">Tiempos registrados por {{$r[0]->prueba->nombre_prueba}}</caption>
+                            
                             <tr>
                                 <th>#</th>
                                 <th>N° Prueba</th>
@@ -61,14 +65,16 @@
                                     <td>{{$t->prueba->nombre_prueba}}</td>
                                     <td>{{$t->alumno->nombre}}</td>
                                     <td>{{$t->alumno->apellido}}</td>
-                                    <td>{{$t->alumno->categoria->nombre_categoria}}</td>
+                                    <td>{{$t->prueba->categoria->nombre_categoria}}</td>
                                     <td>{{$t->competidor_tiempo}}</td>
                                     <td>{{$t->alumno->club->nombre_club}}</td>
                                     <td>{{$t->alumno->sexo}}</td>
                                 </tr>
                            @endforeach
                         </table>
+                        @endif
                         @endforeach
+                       
                     </div>
                 </div>
             </div>

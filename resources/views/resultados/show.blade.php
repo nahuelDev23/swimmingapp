@@ -29,12 +29,12 @@
                                     <td>{{$i}}</td>
                                     <td>{{$r->serie->prueba->nombre_prueba}}</td>
                                     <td>{{$r->carril}}</td>
-                                    <td>{{$r->competidor->nombre}}</td>
-                                    <td>{{$r->competidor->apellido}}</td>
-                                    <td>{{$r->competidor->categoria->nombre_categoria}}</td>
+                                    <td>{{$r->competidor->alumno->nombre}}</td>
+                                    <td>{{$r->competidor->alumno->apellido}}</td>
+                                    <td>{{$r->competidor->alumno->categoria->nombre_categoria}}</td>
                                     <td>{{$r->tiempo}}</td>
-                                    <td>{{$r->competidor->club->nombre_club}}</td>
-                                    <td>{{$r->competidor->sexo}}</td>
+                                    <td>{{$r->competidor->alumno->club->nombre_club}}</td>
+                                    <td>{{$r->competidor->alumno->sexo}}</td>
                                 </tr>
                                 @endforeach
                             </table>

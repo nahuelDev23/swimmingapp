@@ -4,9 +4,11 @@
 use App\Http\Controllers\CompetenciaController;
 use App\Http\Controllers\CompetidorController;
 use App\Http\Controllers\ResultadoController;
+use App\Http\Controllers\PruebaController;
 use App\Http\Controllers\SerieController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\AlumnoController;
+use App\Http\Controllers\CancheoController;
 use App\Http\Controllers\InscripcionPruebaController;
 use Illuminate\Support\Facades\Route;
 
@@ -51,6 +53,14 @@ Route::resource('competidores',CompetidorController::class,['except' => ['create
 Route::get('inscripciones/create/{competencia}',[InscripcionPruebaController::class,'create'])->middleware(['auth'])->name('inscripciones.create');
 Route::get('inscripciones/edit',[InscripcionPruebaController::class,'edit'])->middleware(['auth'])->name('inscripciones.edit');
 Route::resource('inscripciones',InscripcionPruebaController::class,['except' => ['create','edit']])->middleware(['auth']);
+
+Route::get('cancheos/create/{competencia}',[CancheoController::class,'create'])->middleware(['auth'])->name('cancheos.create');
+Route::get('cancheos/{cancheo}/edit',[CancheoController::class,'edit'])->middleware(['auth'])->name('cancheos.edit');
+Route::resource('cancheos',CancheoController::class,['except' => ['create','edit']])->middleware(['auth']);
+
+Route::get('pruebas/create/{competencia}',[PruebaController::class,'create'])->middleware(['auth'])->name('pruebas.create');
+Route::get('pruebas/{prueba}/edit',[PruebaController::class,'edit'])->middleware(['auth'])->name('pruebas.edit');
+Route::resource('pruebas',PruebaController::class,['except' => ['create','edit']])->middleware(['auth']);
 
 Route::get('resultados/{competencia}',[ResultadoController::class,'show'])->middleware(['auth'])->name('resultados.show');
 require __DIR__.'/auth.php';
