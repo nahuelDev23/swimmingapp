@@ -20,7 +20,7 @@
                     @else
                         {{-- Agrego a pruebas_inscripciones --}}
                         {{-- El entrenador puede agregar un competidor a una pruba que sea de su club --}}
-                        <a href="">Inscribir competidor a prueba</a>
+                        <a href="{{route('inscripciones.create',$competencia->id)}}">Inscribir competidor a prueba</a>
                         <br>
                          {{-- Agrego a competidors los tiempos de cada prueba por alumno--}}
                         <a href="{{route('competidores.create',$competencia->id)}}">Agregar tiempos de pruebas para este evento</a>

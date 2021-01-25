@@ -7,6 +7,7 @@ use App\Http\Controllers\ResultadoController;
 use App\Http\Controllers\SerieController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\AlumnoController;
+use App\Http\Controllers\InscripcionPruebaController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -46,6 +47,10 @@ Route::resource('alumnos',AlumnoController::class,['except' => ['create','edit']
 Route::get('competidores/create/{competencia}',[CompetidorController::class,'create'])->middleware(['auth'])->name('competidores.create');
 Route::get('competidores/edit',[CompetidorController::class,'edit'])->middleware(['auth'])->name('competidores.edit');
 Route::resource('competidores',CompetidorController::class,['except' => ['create','edit']])->middleware(['auth']);
+
+Route::get('inscripciones/create/{competencia}',[InscripcionPruebaController::class,'create'])->middleware(['auth'])->name('inscripciones.create');
+Route::get('inscripciones/edit',[InscripcionPruebaController::class,'edit'])->middleware(['auth'])->name('inscripciones.edit');
+Route::resource('inscripciones',InscripcionPruebaController::class,['except' => ['create','edit']])->middleware(['auth']);
 
 Route::get('resultados/{competencia}',[ResultadoController::class,'show'])->middleware(['auth'])->name('resultados.show');
 require __DIR__.'/auth.php';

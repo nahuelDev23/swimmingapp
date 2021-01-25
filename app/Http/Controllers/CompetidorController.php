@@ -24,6 +24,8 @@ class CompetidorController extends Controller
         foreach($pruebas_de_la_competencia as $p){
             array_push($rs, Competidor::where('competencia_id',$competencia->id)
             ->where('prueba_id',$p->id)
+            ->join('alumnos','competidors.alumno_id','=','alumnos.id')
+            ->where('alumnos.club_id',Auth::user()->club->id)
             ->orderBy('competidor_tiempo','asc')
             ->get());
         }
@@ -41,6 +43,7 @@ class CompetidorController extends Controller
 
     public function store(Request $request)
     {
+        // dd($request->competidor_tiempo);
         $sexo = '';
         /**
          * ?un competidor no puede estar dos veces en la misma prueba
@@ -82,7 +85,7 @@ class CompetidorController extends Controller
             $competidor->competencia_id = $request->competencia_id;
             $competidor->alumno_id = $request->alumno_id;
             $competidor->prueba_id = $request->prueba_id;
-            $competidor->competidor_tiempo = $request->competidor_tiempo;
+            $competidor->competidor_tiempo = ($request->competidor_tiempo == '00:00') ? '23:59:59' : $request->competidor_tiempo;
             $competidor->save();
             return back()->with('message','el alumno se registro en la prueba correctamente');
         }

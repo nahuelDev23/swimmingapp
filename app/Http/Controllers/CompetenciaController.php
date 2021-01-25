@@ -57,9 +57,10 @@ class CompetenciaController extends Controller
                 $competidoresAptos = InscripcionPrueba::join('competidors', 'inscripcion_pruebas.competidor_id', '=', 'competidors.id')
                     ->where('inscripcion_pruebas.prueba_id', $prueba->id)
                     ->where('competidors.competencia_id', $competencia->id)
-                    ->where('competidors.categoria_id', $prueba->categoria_id)
-                    ->where('competidors.sexo', $sexo)
-                    ->orderBy('competidors.tiempo_competidor', 'asc')
+                    ->join('alumnos','competidors.alumno_id','=','alumnos.id')
+                    ->where('alumnos.categoria_id', $prueba->categoria_id)
+                    ->where('alumnos.sexo', $sexo)
+                    ->orderBy('competidors.competidor_tiempo', 'asc')
                     ->get();
             } else {
                 $competidoresAptos = InscripcionPrueba::join('competidors', 'inscripcion_pruebas.competidor_id', '=', 'competidors.id')
@@ -70,7 +71,6 @@ class CompetenciaController extends Controller
                     ->orderBy('competidors.competidor_tiempo', 'asc')
                     ->get();
             }
-
             /**
              * !agregar  ala tabla competencias la cantidad de carriles que va a tener la competencia
              * !y que este valor sea esa calumna
