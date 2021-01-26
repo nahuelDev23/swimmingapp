@@ -58,6 +58,7 @@
                                 <th>Tiempo</th>
                                 <th>Club</th>
                                 <th>Sexo</th>
+                                <th>Acciones</th>
                             </tr>
                            @foreach($r as $i => $t)
                                 <tr class="table__resultados_tr">
@@ -69,6 +70,12 @@
                                     <td>{{$t->competidor_tiempo}}</td>
                                     <td>{{$t->alumno->club->nombre_club}}</td>
                                     <td>{{$t->alumno->sexo}}</td>
+                                    <td>
+                                        <a href="{{route('competidores.edit',$t->competidorId)}}">Editar</a>
+                                        {!! Form::open(['route' => ['competidores.destroy', $t->competidorId],'method'=>'delete']) !!}
+                                            <button onclick="return confirm('Seguro?')"  type="submit">Eliminar</button>
+                                        {!! Form::close() !!}
+                                    </td>
                                 </tr>
                            @endforeach
                         </table>

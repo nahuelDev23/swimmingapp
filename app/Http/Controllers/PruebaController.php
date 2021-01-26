@@ -127,4 +127,10 @@ class PruebaController extends Controller
         return back()->with('message','La prueba se editó correctamente');
         
     }
+
+    public function destroy($id)
+    {
+        Prueba::destroy($id);
+        return back()->with('success','La prueba se eliminó correctamente');
+    }
 }
