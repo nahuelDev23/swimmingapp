@@ -46,7 +46,12 @@
                                     <td>{{ $prueba->sexo }}</td>
                                     <td>{{ $prueba->categoria->nombre_categoria }}</td>
                                     <td>{{ $prueba->nivel }}</td>
-                                    <td><a href="{{route('pruebas.edit',$prueba->id)}}">Editar</a></td>
+                                    <td>
+                                        <a href="{{route('pruebas.edit',$prueba->id)}}">Editar</a>
+                                        {!! Form::open(['route' => ['pruebas.destroy', $prueba->id],'method'=>'delete']) !!}
+                                            <button onclick="return confirm('Seguro?')"  type="submit">Eliminar</button>
+                                        {!! Form::close() !!}
+                                    </td>
                                 </tr>
                             @endforeach
                         </table>

@@ -47,7 +47,7 @@ Route::resource('alumnos',AlumnoController::class,['except' => ['create','edit']
 
 
 Route::get('competidores/create/{competencia}',[CompetidorController::class,'create'])->middleware(['auth'])->name('competidores.create');
-Route::get('competidores/edit',[CompetidorController::class,'edit'])->middleware(['auth'])->name('competidores.edit');
+Route::get('competidores/{competidore}/edit',[CompetidorController::class,'edit'])->middleware(['auth'])->name('competidores.edit');
 Route::resource('competidores',CompetidorController::class,['except' => ['create','edit']])->middleware(['auth']);
 
 Route::get('inscripciones/create/{competencia}',[InscripcionPruebaController::class,'create'])->middleware(['auth'])->name('inscripciones.create');

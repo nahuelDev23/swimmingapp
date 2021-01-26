@@ -18,7 +18,7 @@ class InscripcionPruebaController extends Controller
     {
 
         $tiempo_competidores = Competidor::where('competencia_id', $competencia->id)->orderBy('competidor_tiempo', 'asc')->get();
-        $pruebas_select = Prueba::where('competencia_id', $competencia->id)->pluck('nombre_prueba', 'id');
+        $pruebas_select = Prueba::where('competencia_id', $competencia->id)->orderBy('nombre_prueba', 'asc')->pluck('nombre_prueba', 'id');
         $competidor_select = Competidor::join('alumnos','competidors.alumno_id','=','alumnos.id')
         ->join('pruebas','competidors.prueba_id','=','pruebas.id')
         ->where('alumnos.club_id', Auth::user()->club->id)
