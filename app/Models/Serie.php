@@ -18,6 +18,10 @@ class Serie extends Model
     {
         return $this->hasMany(Cancheo::class); # una Serie pertenece a muchos cancheos
     }
+    public function resultados()
+    {
+        return $this->hasMany(Resultado::class); # una Serie pertenece a muchos cancheos
+    }
 
     public function competencia()
     {

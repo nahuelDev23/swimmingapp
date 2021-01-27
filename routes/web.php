@@ -63,4 +63,6 @@ Route::get('pruebas/{prueba}/edit',[PruebaController::class,'edit'])->middleware
 Route::resource('pruebas',PruebaController::class,['except' => ['create','edit']])->middleware(['auth']);
 
 Route::get('resultados/{competencia}',[ResultadoController::class,'show'])->middleware(['auth'])->name('resultados.show');
+Route::post('resultados/{competencia}',[ResultadoController::class,'store'])->middleware(['auth'])->name('resultados.store');
+Route::resource('resultados',ResultadoController::class,['except' => ['create','edit','show','store']])->middleware(['auth']);
 require __DIR__.'/auth.php';

@@ -18,6 +18,8 @@ class CreateCompetenciasTable extends Migration
             $table->string('nombre_competencia');
             $table->date('fecha_competencia');
             $table->text('detalle');
+            $table->integer('carriles')->default(5);
+            $table->bool('estado')->default(1);
             $table->timestamps();
         });
     }
