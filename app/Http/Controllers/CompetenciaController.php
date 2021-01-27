@@ -29,8 +29,14 @@ class CompetenciaController extends Controller
     public function show(Competencia $competencia)
     {
 
-        $series = $competencia->series;
-        $pruebas = Prueba::where('competencia_id',$competencia->id)->get();
+        $series = Serie::where('series.competencia_id',$competencia->id)
+        ->join('pruebas','series.prueba_id','=','pruebas.id')
+        ->select('series.id','series.nombre_serie','pruebas.nombre_prueba','series.competencia_id')
+        ->orderBy('pruebas.nombre_prueba','asc')
+        ->get();
+
+        
+        $pruebas = Prueba::where('competencia_id',$competencia->id)->orderBy('nombre_prueba')->get();
         return view('competencias/show', [
             'competencia' => $competencia,
             'series' => $series,
@@ -71,11 +77,8 @@ class CompetenciaController extends Controller
                     ->orderBy('competidors.competidor_tiempo', 'asc')
                     ->get();
             }
-            /**
-             * !agregar  ala tabla competencias la cantidad de carriles que va a tener la competencia
-             * !y que este valor sea esa calumna
-             */
-            $cancha = 6;
+            
+            $cancha = $competencia->carriles;
 
             $rs = [];
             foreach ($competidoresAptos as $item) {
@@ -116,6 +119,7 @@ class CompetenciaController extends Controller
                 }
             }
         }
+        return back();
     }
 
     public function partition($list, $p)

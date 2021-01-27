@@ -33,6 +33,11 @@ class Competidor extends Model
         return $this->hasMany(Cancheo::class); # un Competidor pertenece a muchos cancheos
     }
 
+    public function resultados()
+    {
+        return $this->hasMany(Resultado::class); # un Competidor pertenece a muchos cancheos
+    }
+
     public function inscripcionPrueba()
     {
         return $this->hasMany(InscripcionPrueba::class); 
