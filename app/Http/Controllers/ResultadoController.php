@@ -15,7 +15,6 @@ class ResultadoController extends Controller
         $pruebas = Prueba::all();
         $categorias = Categoria::all();
         $sexos = ['M','F'];
-        $resultado_mixto = [];
         $resultado = [];
         
         foreach($pruebas as $prueba){
@@ -30,13 +29,9 @@ class ResultadoController extends Controller
             foreach($categorias as  $categoria){
                     array_push($resultado, $this->makeResultados($categoria->id,$prueba->id,$competencia->id));
             }
-
-           
         }
-
        
         return view('resultados/show',[
-             'resultado_mixto' => $resultado_mixto,
              'resultado' => $resultado,
              ]);
     }

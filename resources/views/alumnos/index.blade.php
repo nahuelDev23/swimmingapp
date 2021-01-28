@@ -21,6 +21,7 @@
                         <th>sexo</th>
                         <th>dni</th>
                         <th>fecha de nacimiento</th>
+                        <th>Acciones</th>
                     </tr>
                     {{-- {{dd($alumnos)}} --}}
                     @foreach ($alumnos as $alumno)
@@ -30,7 +31,13 @@
                             <td>{{ $alumno->categoria->nombre_categoria }}</td>
                             <td>{{ $alumno->sexo }}</td>
                             <td>{{ $alumno->dni }}</td>
-                            <td>{{ $alumno->fecha_nacimiento }}</td>
+                            <td>{{ date('d-m-Y',strtotime($alumno->fecha_nacimiento)) }}</td>
+                            <td>
+                                <a href="{{route('alumnos.edit',$alumno->id)}}">Editar</a>
+                                {!! Form::open(['route' => ['alumnos.destroy', $alumno->id],'method'=>'delete']) !!}
+                                <button onclick="return confirm('Seguro?')"  type="submit">Eliminar</button>
+                                {!! Form::close() !!}
+                            </td>
                            
                         </tr>
                     @endforeach

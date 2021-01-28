@@ -36,13 +36,15 @@
                         @endif
 
                     @else
-                        @if($compentencia->estado != 0)
+                        @if($competencia->estado != 0)
                             {{-- Agrego a pruebas_inscripciones --}}
                             {{-- El entrenador puede agregar un competidor a una pruba que sea de su club --}}
                             <a href="{{route('inscripciones.create',$competencia->id)}}">Inscribir competidor a prueba</a>
                             <br>
                             {{-- Agrego a competidors los tiempos de cada prueba por alumno--}}
                             <a href="{{route('competidores.create',$competencia->id)}}">Agregar tiempos de pruebas para este evento</a>
+                        @else
+                            <h2>Evento finalizado</h2>
                         @endif
                     @endif
                     <div class="grid grid-cols-2 gap-4">

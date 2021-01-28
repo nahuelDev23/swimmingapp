@@ -68,6 +68,8 @@ class CompetenciaController extends Controller
                     ->where('alumnos.sexo', $sexo)
                     ->orderBy('competidors.competidor_tiempo', 'asc')
                     ->get();
+                   
+                    
             } else {
                 $competidoresAptos = InscripcionPrueba::join('competidors', 'inscripcion_pruebas.competidor_id', '=', 'competidors.id')
                     ->where('inscripcion_pruebas.prueba_id', $prueba->id)
@@ -77,13 +79,14 @@ class CompetenciaController extends Controller
                     ->orderBy('competidors.competidor_tiempo', 'asc')
                     ->get();
             }
-            
+           
             $cancha = $competencia->carriles;
 
             $rs = [];
             foreach ($competidoresAptos as $item) {
                 array_push($rs, $item);
             }
+           
             /**
              * ?array chunk tiene que recibir un array , si pongo $competidoresAptos al ser una coleccion no es valido
              * ?por eso lo paso a rs , para que sea array..
@@ -100,6 +103,7 @@ class CompetenciaController extends Controller
             }
             $carriles = ['4', '3', '5', '2', '1', '6'];
 
+           
             foreach ($cancheo_creacion as $index => $can) {
 
                 $s = new Serie;

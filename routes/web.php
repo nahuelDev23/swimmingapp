@@ -9,6 +9,7 @@ use App\Http\Controllers\SerieController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\AlumnoController;
 use App\Http\Controllers\CancheoController;
+use App\Http\Controllers\ClubController;
 use App\Http\Controllers\InscripcionPruebaController;
 use Illuminate\Support\Facades\Route;
 
@@ -42,7 +43,7 @@ Route::post('users/reset-password',[UserController::class,'reset_password'])->mi
 
 
 Route::get('alumnos/create',[AlumnoController::class,'create'])->middleware(['auth'])->name('alumnos.create');
-Route::get('alumnos/edit',[AlumnoController::class,'edit'])->middleware(['auth'])->name('alumnos.edit');
+Route::get('alumnos/{alumno}/edit',[AlumnoController::class,'edit'])->middleware(['auth'])->name('alumnos.edit');
 Route::resource('alumnos',AlumnoController::class,['except' => ['create','edit']])->middleware(['auth']);
 
 
@@ -65,4 +66,7 @@ Route::resource('pruebas',PruebaController::class,['except' => ['create','edit']
 Route::get('resultados/{competencia}',[ResultadoController::class,'show'])->middleware(['auth'])->name('resultados.show');
 Route::post('resultados/{competencia}',[ResultadoController::class,'store'])->middleware(['auth'])->name('resultados.store');
 Route::resource('resultados',ResultadoController::class,['except' => ['create','edit','show','store']])->middleware(['auth']);
+
+Route::resource('clubs',ClubController::class)->middleware(['auth']);
+
 require __DIR__.'/auth.php';

@@ -17,6 +17,12 @@
     {!! FORM::label('dni','DNI') !!}
     {!! FORM::text('dni',null,['class'=>'form-control']) !!}
     <br>
+    @if(Auth::user()->is_admin == 1)
+        <br>
+        {!! FORM::label('club_id','Club') !!}
+        {!! FORM::select('club_id',$clubs,null,['class'=>'form-control']) !!}
+    <br>
+    @endif
     <br>
     {!! FORM::label('fecha_nacimiento','Fecha nacimiento') !!}
     {!! FORM::date('fecha_nacimiento',null,['class'=>'form-control']) !!}

@@ -22,6 +22,9 @@
                         <x-nav-link :href="route('users.index')" :active="request()->routeIs('users.index')">
                             {{ __('Usuarios') }}
                         </x-nav-link>
+                        <x-nav-link :href="route('clubs.create')" :active="request()->routeIs('clubs.create')">
+                            {{ __('Agregar club') }}
+                        </x-nav-link>
                     @endif
                     
                 </div>
