@@ -31,8 +31,9 @@ class InscripcionPruebaController extends Controller
         foreach($pruebas_de_la_competencia as $p){
             array_push($rs, InscripcionPrueba::where('inscripcion_pruebas.competencia_id',$competencia->id)
             ->where('inscripcion_pruebas.prueba_id',$p->id)
-            // ->join('competidors','inscripcion_pruebas.competidor_id','=','competidors.id')
-            // ->orderBy('competidors.competidor_tiempo','asc')
+            ->join('competidors','inscripcion_pruebas.competidor_id','=','competidors.id')
+            ->join('alumnos','competidors.alumno_id','=','alumnos.id')
+            ->where('alumnos.club_id', Auth::user()->club->id)
             ->get());
         }
 

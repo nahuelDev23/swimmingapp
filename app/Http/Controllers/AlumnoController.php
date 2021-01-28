@@ -32,10 +32,12 @@ class AlumnoController extends Controller
     }
 
     public function edit(Alumno $alumno){
+        $clubs = Club::pluck('nombre_club','id');
         $categorias = Categoria::pluck('nombre_categoria','id');
         return view('alumnos/edit',[
             'alumno' => $alumno,
             'categorias' => $categorias,
+            'clubs' => $clubs,
         ]);
     }
 
