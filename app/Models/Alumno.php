@@ -8,6 +8,16 @@ use Illuminate\Database\Eloquent\Model;
 class Alumno extends Model
 {
     use HasFactory;
+    
+    protected $fillable = [
+        'nombre',
+        'apellido',
+        'categoria_id',
+        'club_id',
+        'sexo',
+        'dni',
+        'fecha_nacimiento',
+    ];
 
     public function categoria()
     {
