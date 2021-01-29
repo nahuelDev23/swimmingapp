@@ -7,6 +7,8 @@ use App\Models\Categoria;
 use App\Models\Club;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use App\Imports\AlumnosImport;
+use Maatwebsite\Excel\Facades\Excel;
 
 class AlumnoController extends Controller
 {
@@ -86,4 +88,15 @@ class AlumnoController extends Controller
         return back()->with('success','El alumno se eliminó con exito');
     }
     
+    function import(Request $request)
+    {
+     $this->validate($request, [
+      'select_file'  => 'required|mimes:xls,xlsx'
+     ]);
+
+    
+      Excel::import(new AlumnosImport,request()->file('select_file'));
+
+     return back()->with('success', 'Excel Data Imported successfully.');
+    }
 }
