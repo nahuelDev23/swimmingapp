@@ -43,6 +43,7 @@ Route::post('users/reset-password',[UserController::class,'reset_password'])->mi
 
 
 Route::get('alumnos/create',[AlumnoController::class,'create'])->middleware(['auth'])->name('alumnos.create');
+Route::post('alumnos/import',[AlumnoController::class,'import'])->middleware(['auth'])->name('alumnos.import');
 Route::get('alumnos/{alumno}/edit',[AlumnoController::class,'edit'])->middleware(['auth'])->name('alumnos.edit');
 Route::resource('alumnos',AlumnoController::class,['except' => ['create','edit']])->middleware(['auth']);
 

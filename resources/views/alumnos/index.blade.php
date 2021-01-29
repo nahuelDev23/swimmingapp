@@ -11,6 +11,13 @@
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 bg-white border-b border-gray-200">
                    <a href="{{Route('alumnos.create')}}">Agregar Alumno</a>
+                   @foreach ($errors->all() as $message)
+                        {{ $message }}<br>
+                    @endforeach
+                   {!! Form::open(['route' => ['alumnos.import'],'method'=>'post', 'enctype' => 'multipart/form-data']) !!}
+                        <input type="file" name="select_file">
+                         <button type="submit">Importar alumnos desde archivo excel</button>
+                    {!! Form::close() !!}
 
                    <table class="text-center">
                     <caption class="table__resultados_caption mb-4">ALUMNOS club</caption>

@@ -10,3 +10,12 @@ Si todo salio bien en __config/__ se nos crea __debugbar__
 
 # INSTALO HTML COLLECTIVE
 `composer require laravelcollective/html`
+
+# instalo composer require maatwebsite/excel
+para poder importar y exportar desde excel a mysql
+
+vamos a php ini y descomentamos extencion=gd
+composer require phpoffice/phpspreadsheet
+require maatwebsite/excel
+https://docs.laravel-excel.com/3.0/getting-started/installation.html
+https://www.webslesson.info/2019/02/import-excel-file-in-laravel.html
