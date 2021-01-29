@@ -22,6 +22,11 @@ class AlumnosImport implements ToModel, WithHeadingRow, WithValidation
     public function model(array   $row)
     {
        
+        /**
+         * si la tabla tiene el nombre y el apellido en un solo campo "nombre" 
+         * usamos el split 
+         * de lo contrario $row['nombre'] y apellido
+         */
         $split_nombre =  explode(' ', $row['nombre']);
         $get_apellido = $split_nombre[0];
         $get_nombre = $split_nombre[1];
