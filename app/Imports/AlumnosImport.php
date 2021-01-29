@@ -21,21 +21,24 @@ class AlumnosImport implements ToModel, WithHeadingRow, WithValidation
     */
     public function model(array   $row)
     {
-        // 
-        // dd($row);
-                $get_club_id = Club::select('id')->where('nombre_club',$row['club'])->get();
-                $get_categoria_id = Categoria::select('id')->where('nombre_categoria',$row['categoria'])->get();
-                $alumno = new Alumno();
-                $alumno->nombre =  $row['nombre'];
-                $alumno->apellido =  $row['apellido'];
-                $alumno->categoria_id =  $get_categoria_id[0]->id;
-                $alumno->club_id =   $get_club_id[0]->id;
-                $alumno->sexo =  $row['sexo'];
-                $alumno->dni =  $row['dni'];
-                $alumno->fecha_nacimiento =  \PhpOffice\PhpSpreadsheet\Shared\Date::excelToDateTimeObject($row['fecha_nacimiento']);
-                $alumno->save();
-               
-            
+       
+        $split_nombre =  explode(' ', $row['nombre']);
+        $get_apellido = $split_nombre[0];
+        $get_nombre = $split_nombre[1];
+        $get_club_id = Club::select('id')->where('nombre_club',$row['club'])->get();
+        $get_categoria_id = Categoria::select('id')->where('nombre_categoria',$row['categoria'])->get();
+        $alumno = new Alumno();
+        // $alumno->nombre =  $row['nombre'];
+        // $alumno->apellido =  $row['apellido'];
+        $alumno->nombre =  $get_nombre;
+        $alumno->apellido =  $get_apellido;
+        $alumno->categoria_id =  $get_categoria_id[0]->id;
+        $alumno->club_id =   $get_club_id[0]->id;
+        $alumno->sexo =  $row['sexo'];
+        $alumno->dni =  $row['dni'] != null ? $row['dni'] : rand(0,10000) ;
+        $alumno->fecha_nacimiento =  $row['fecha_nacimiento'] != null ? \PhpOffice\PhpSpreadsheet\Shared\Date::excelToDateTimeObject($row['fecha_nacimiento']) : null;
+
+        $alumno->save();
         }     
     
         public function rules(): array
