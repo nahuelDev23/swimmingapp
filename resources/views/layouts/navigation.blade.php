@@ -25,6 +25,9 @@
                         <x-nav-link :href="route('clubs.create')" :active="request()->routeIs('clubs.create')">
                             {{ __('Agregar club') }}
                         </x-nav-link>
+                        <x-nav-link :href="route('resultados.puntuaciongeneral')" :active="request()->routeIs('resultados.puntuaciongeneral')">
+                            {{ __('Puntuacion general') }}
+                        </x-nav-link>
                     @endif
                     
                 </div>

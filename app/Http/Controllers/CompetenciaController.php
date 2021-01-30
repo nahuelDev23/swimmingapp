@@ -26,6 +26,16 @@ class CompetenciaController extends Controller
        
     }
 
+    public function create()
+    {   
+        return view('competencias/create');
+    }
+
+    public function store(Request $request)
+    {   
+       Competencia::create($request->all());
+       return back()->with('message','Competencia creada');
+    }
     public function show(Competencia $competencia)
     {
 
@@ -143,5 +153,27 @@ class CompetenciaController extends Controller
 
     public function deleteSeriesPorCompetencia($competencia_id){
             Serie::where('competencia_id',$competencia_id)->delete();
+    }
+
+    public function edit(Competencia $competencia)
+    {
+        return view('competencias/edit',[
+            'competencia' => $competencia,
+        ]);
+    }
+
+    public function update(Request $request,Competencia $competencia)
+    {
+        $competencia->nombre_competencia = $request->nombre_competencia;
+        $competencia->fecha_competencia = $request->fecha_competencia;
+        $competencia->detalle = $request->detalle;
+        $competencia->carriles = $request->carriles;
+        $competencia->update();
+        return back()->with('message','La competencia se edito con exito');
+    }
+    public function destroy($id)
+    {
+        Competencia::find($id)->delete();
+        return back()->with('success','La competencia se eliminó con exito');
     }
 }

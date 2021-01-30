@@ -19,15 +19,30 @@ class InscripcionPruebaController extends Controller
 
         $tiempo_competidores = Competidor::where('competencia_id', $competencia->id)->orderBy('competidor_tiempo', 'asc')->get();
         $pruebas_select = Prueba::where('competencia_id', $competencia->id)->orderBy('nombre_prueba', 'asc')->pluck('nombre_prueba', 'id');
-        $competidor_select = Competidor::join('alumnos','competidors.alumno_id','=','alumnos.id')
-        ->join('pruebas','competidors.prueba_id','=','pruebas.id')
-        ->where('alumnos.club_id', Auth::user()->club->id)
-        ->selectRaw('competidors.id,CONCAT(alumnos.nombre," ",alumnos.apellido," - ",alumnos.dni," - ",pruebas.nombre_prueba," - ",competidor_tiempo) as nombre')->pluck('nombre', 'id');
-
+        if(Auth::user()->is_admin == 1){
+            $competidor_select = Competidor::join('alumnos','competidors.alumno_id','=','alumnos.id')
+            ->join('pruebas','competidors.prueba_id','=','pruebas.id')
+            ->where('competidors.competencia_id',$competencia->id)
+            ->selectRaw('competidors.id,CONCAT(alumnos.nombre," ",alumnos.apellido," - ",alumnos.dni," - ",pruebas.nombre_prueba," - ",competidor_tiempo) as nombre')->pluck('nombre', 'id');
+        }else{
+            $competidor_select = Competidor::join('alumnos','competidors.alumno_id','=','alumnos.id')
+            ->join('pruebas','competidors.prueba_id','=','pruebas.id')
+            ->where('alumnos.club_id', Auth::user()->club->id)
+            ->where('competencia_id',$competencia->id)
+            ->selectRaw('competidors.id,CONCAT(alumnos.nombre," ",alumnos.apellido," - ",alumnos.dni," - ",pruebas.nombre_prueba," - ",competidor_tiempo) as nombre')->pluck('nombre', 'id');
+        }
         $pruebas_de_la_competencia = Prueba::where('competencia_id', $competencia->id)->orderBy('nombre_prueba', 'asc')->get();
 
         $rs = [];
-        
+        if(Auth::user()->is_admin == 1){
+        foreach($pruebas_de_la_competencia as $p){
+            array_push($rs, InscripcionPrueba::where('inscripcion_pruebas.competencia_id',$competencia->id)
+            ->where('inscripcion_pruebas.prueba_id',$p->id)
+            ->join('competidors','inscripcion_pruebas.competidor_id','=','competidors.id')
+            ->join('alumnos','competidors.alumno_id','=','alumnos.id')
+            ->get());
+        }
+    }else{
         foreach($pruebas_de_la_competencia as $p){
             array_push($rs, InscripcionPrueba::where('inscripcion_pruebas.competencia_id',$competencia->id)
             ->where('inscripcion_pruebas.prueba_id',$p->id)
@@ -36,6 +51,7 @@ class InscripcionPruebaController extends Controller
             ->where('alumnos.club_id', Auth::user()->club->id)
             ->get());
         }
+    }
 
         return view('inscripciones/create', [
             'pruebas_select' => $pruebas_select,

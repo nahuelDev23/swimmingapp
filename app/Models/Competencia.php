@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class Competencia extends Model
 {
     use HasFactory;
-
+    protected $guarded = [];
     public function series()
     {
         return $this->hasMany(Serie::class); # una Competencia tiene muchas series

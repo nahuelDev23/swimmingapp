@@ -1,7 +1,7 @@
 <div class="form-group">
 
     {!! FORM::label('prueba_id','Prueba') !!}
-    {!! FORM::select('prueba_id',$pruebas_select,null,['class'=>'form-control']) !!}
+    {!! FORM::select('prueba_id',$pruebas_select,null,['class'=>'form-control','required']) !!}
 
     {!! FORM::label('alumno_id','Alumnos') !!}
     {!! FORM::select('alumno_id',$alumnos_select,null,['class'=>'form-control']) !!}

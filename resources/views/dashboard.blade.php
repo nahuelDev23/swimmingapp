@@ -13,7 +13,7 @@
                    <table class="text-center">
                        <caption  class="table__resultados_caption mb-4">Competencias</caption>
                         @if(Auth::user()->is_admin == 1)
-                            <a href="">Crear competencia</a>
+                            <a href="{{route('competencias.create')}}">Crear competencia</a>
                         @endif
                        <tr>
                            <th>#</th>
@@ -29,6 +29,14 @@
                             <td>{{$compe->detalle}}</td>
                             <td>{{date('d-m-Y',strtotime($compe->fecha_competencia))}}</td>
                             <td><a href="{{route('competencias.show',$compe->id)}}">Ver</a></td>
+                            <td>
+                            @if(Auth::user()->is_admin == 1)
+                            <a href="{{route('competencias.edit',$compe->id)}}">editar</a>
+                                {!! Form::open(['route' => ['competencias.destroy', $compe->id],'method'=>'delete']) !!}
+                                    <button onclick="return confirm('Seguro?')"  type="submit">Borrar</button>
+                                {!! Form::close() !!}
+                            @endif
+                        </td>
                         </tr>
                        @endforeach
                    </table>
