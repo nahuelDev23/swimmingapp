@@ -10,10 +10,24 @@
                 <div class="p-6 bg-white border-b border-gray-200">
                     <div class="grid grid-cols-2 gap-4">
                         <h1>general</h1>
-                        @foreach($puntajes as $p)
-                            {{$p[0]->nombre_club}}
-                            {{$p[0]->resultados_puntaje}}
-                        @endforeach
+                        <table class="text-center">
+                            <tr>
+                                <th>Club</th>
+                                <th>Puntaje total</th>
+                            </tr>
+                            @foreach($puntajes as $p)
+                            <tr>
+                                <td>
+                                    {{$p[0]->nombre_club}}
+                                </td>
+                                <td> {{$p[0]->resultados_puntaje}}</td>
+                            </tr>
+                            @endforeach
+                        </table>
+                       
+                           
+                           
+                        
                     </div>
 
                 </div>

@@ -130,11 +130,6 @@ class ResultadoController extends Controller
 
         public function puntuacionGeneral()
         {
-            // $r = Resultado::join('competidors','resultados.competidor_id','competidors.id')
-            // ->join('alumnos','competidors.alumno_id','alumnos.id')
-            // ->join('clubs','alumnos.club_id','clubs.id')
-            // ->select('resultados.puntaje','competidors.competidor_tiempo','clubs.nombre_club')
-            // ->get();
             $rs = [];
             $club = Club::all();
             foreach($club as $c){
@@ -147,8 +142,10 @@ class ResultadoController extends Controller
                 ->where('clubs.id',$c->id)
                 ->get()
             );
+
+            
             }
-        
+
             return view('resultados/general',[
                 'puntajes' => $rs,
             ]);
