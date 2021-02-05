@@ -16,20 +16,40 @@ class CompetidorController extends Controller
     {
         $tiempo_competidores = Competidor::where('competencia_id', $competencia->id)->orderBy('competidor_tiempo', 'asc')->get();
         $pruebas_select = Prueba::where('competencia_id', $competencia->id)->orderBy('nombre_prueba','asc')->pluck('nombre_prueba', 'id');
-        $alumnos_select = Alumno::where('club_id', Auth::user()->club->id)->selectRaw('id,CONCAT(nombre," ",apellido," - ",dni) as nombre')->pluck('nombre', 'id');
+        if(Auth::user()->is_admin == 1){
+            $alumnos_select = Alumno::selectRaw('id,CONCAT(nombre," ",apellido," - ",dni) as nombre')->pluck('nombre', 'id');
+        }else{
+            $alumnos_select = Alumno::where('club_id', Auth::user()->club->id)->selectRaw('id,CONCAT(nombre," ",apellido," - ",dni) as nombre')->pluck('nombre', 'id');
+        }
+       
         $pruebas_de_la_competencia = Prueba::where('competencia_id', $competencia->id)->orderBy('nombre_prueba', 'asc')->get();
 
         $rs = [];
 
-        foreach ($pruebas_de_la_competencia as $p) {
-            array_push($rs, Competidor::where('competencia_id', $competencia->id)
-                ->where('prueba_id', $p->id)
-                ->join('alumnos', 'competidors.alumno_id', '=', 'alumnos.id')
-                ->where('alumnos.club_id', Auth::user()->club->id)
-                ->select('*', 'competidors.id as competidorId')
-                ->orderBy('competidor_tiempo', 'asc')
-                ->get());
+        /**
+         * si es admin muestra en el select a todos los alumnos disponibles
+         */
+        if(Auth::user()->is_admin == 1){
+            foreach ($pruebas_de_la_competencia as $p) {
+                array_push($rs, Competidor::where('competencia_id', $competencia->id)
+                    ->where('prueba_id', $p->id)
+                    ->join('alumnos', 'competidors.alumno_id', '=', 'alumnos.id')
+                    ->select('*', 'competidors.id as competidorId')
+                    ->orderBy('competidor_tiempo', 'asc')
+                    ->get());
+            }
+        }else {
+            foreach ($pruebas_de_la_competencia as $p) {
+                array_push($rs, Competidor::where('competencia_id', $competencia->id)
+                    ->where('prueba_id', $p->id)
+                    ->join('alumnos', 'competidors.alumno_id', '=', 'alumnos.id')
+                    ->where('alumnos.club_id', Auth::user()->club->id)
+                    ->select('*', 'competidors.id as competidorId')
+                    ->orderBy('competidor_tiempo', 'asc')
+                    ->get());
+            }
         }
+      
 
         return view('competidores/create', [
             'pruebas_select' => $pruebas_select,

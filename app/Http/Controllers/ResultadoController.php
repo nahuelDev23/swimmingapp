@@ -6,9 +6,10 @@ use App\Models\Cancheo;
 use App\Models\Categoria;
 use App\Models\Competencia;
 use App\Models\Prueba;
+use App\Models\Club;
 use App\Models\Resultado;
 use Illuminate\Http\Request;
-
+use Illuminate\Support\Facades\DB;
 class ResultadoController extends Controller
 {
     public function show(Competencia $competencia){
@@ -125,6 +126,29 @@ class ResultadoController extends Controller
 
             public function deleteResultadosPorCompetencia($competencia_id){
                 Resultado::where('competencia_id',$competencia_id)->delete();
+        }
+
+        public function puntuacionGeneral()
+        {
+            $rs = [];
+            $club = Club::all();
+            foreach($club as $c){
+                array_push($rs, 
+            
+                Resultado::join('competidors','resultados.competidor_id','competidors.id')
+                ->join('alumnos','competidors.alumno_id','alumnos.id')
+                ->join('clubs','alumnos.club_id','clubs.id')
+                ->select('clubs.nombre_club', DB::raw('SUM(resultados.puntaje) AS resultados_puntaje'))
+                ->where('clubs.id',$c->id)
+                ->get()
+            );
+
+            
+            }
+
+            return view('resultados/general',[
+                'puntajes' => $rs,
+            ]);
         }
 }
 

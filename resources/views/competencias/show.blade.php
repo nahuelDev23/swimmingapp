@@ -21,10 +21,10 @@
                             cancheos</a>
                             <br>
                         {{-- El admin puede agregar un competidor de cualquier club    --}}
-                        <a href="">Inscribir competidor a prueba (admin)</a>
+                        <a href="{{route('inscripciones.create',$competencia->id)}}">Inscribir competidor a prueba (admin)</a>
                         <br>
                         {{-- El admin puede agregar un el tiempo de un competidor de cualquier club    --}}
-                        <a href="">Agregar tiempos de pruebas para este evento (admin)</a>
+                        <a href="{{route('competidores.create',$competencia->id)}}">Agregar tiempos de pruebas para este evento (admin)</a>
                         <br>
                         @endif
                         @if($competencia->estado != 0)

@@ -29,8 +29,9 @@ Route::get('/', function () {
 });
 
 Route::get('/dashboard',[CompetenciaController::class,'index'])->middleware(['auth'])->name('dashboard');
-Route::get('competencias/{competencia}',[CompetenciaController::class,'show'])->middleware(['auth'])->name('competencias.show');
 Route::get('competencias/generarSeriesCancheos/{competencia}',[CompetenciaController::class,'generarSeriesCancheos'])->middleware(['auth'])->name('competencias.generarSeriesCancheos');
+Route::resource('competencias',CompetenciaController::class)->middleware(['auth']);
+
 
 Route::get('series/{serie}',[SerieController::class,'show'])->middleware(['auth'])->name('series.show');
 Route::get('series/create/{competencia}',[SerieController::class,'create'])->middleware(['auth'])->name('series.create');
@@ -64,8 +65,10 @@ Route::get('pruebas/create/{competencia}',[PruebaController::class,'create'])->m
 Route::get('pruebas/{prueba}/edit',[PruebaController::class,'edit'])->middleware(['auth'])->name('pruebas.edit');
 Route::resource('pruebas',PruebaController::class,['except' => ['create','edit']])->middleware(['auth']);
 
+Route::get('resultados/puntuaciongeneral',[ResultadoController::class,'puntuacionGeneral'])->middleware(['auth'])->name('resultados.puntuaciongeneral');
 Route::get('resultados/{competencia}',[ResultadoController::class,'show'])->middleware(['auth'])->name('resultados.show');
 Route::post('resultados/{competencia}',[ResultadoController::class,'store'])->middleware(['auth'])->name('resultados.store');
+
 Route::resource('resultados',ResultadoController::class,['except' => ['create','edit','show','store']])->middleware(['auth']);
 
 Route::resource('clubs',ClubController::class)->middleware(['auth']);

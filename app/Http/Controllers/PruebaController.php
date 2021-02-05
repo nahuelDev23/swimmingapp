@@ -35,7 +35,7 @@ class PruebaController extends Controller
             'competencia_id' => 'required',
         ]);
 
-        $check_if_name_is_repeat = Prueba::where('nombre_prueba',$request->nombre_prueba)->get();
+        $check_if_name_is_repeat = Prueba::where('nombre_prueba',$request->nombre_prueba)->where('competencia_id',$request->competencia_id)->get();
         if($check_if_name_is_repeat->count() > 0){
             return back()->with('error','Ya existe una prueba con ese nombre')->withInput();
         }
