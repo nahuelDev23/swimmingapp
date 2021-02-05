@@ -9,6 +9,8 @@ use App\Models\Prueba;
 use App\Models\Categoria;
 use App\Models\InscripcionPrueba;
 use Illuminate\Support\Facades\Auth;
+use App\Repositories\InscripcionPruebaRepository;
+
 
 use Illuminate\Http\Request;
 
@@ -63,19 +65,16 @@ class InscripcionPruebaController extends Controller
         ]);
     }
 
-    public function store(Request $request)
+    public function store(Request $request,InscripcionPruebaRepository $inscripcionPruebaRepository)
     {
+      
+        
         $sexo = '';
         /**
          * ?un competidor no puede estar dos veces en la misma prueba
          * ?la categoria de la prueba y la categoria del alumno tienen que ser las mismas para poder anotarse
          */
         
-
-        $checker_if_alumno_already_exist_in_competidor = InscripcionPrueba::where('competencia_id',$request->competencia_id)
-        ->where('competidor_id', $request->competidor_id)
-        ->where('prueba_id', $request->prueba_id)
-        ->get();
 
         $checker_alumno_category = Competidor::join('alumnos','competidors.alumno_id','=','alumnos.id')
         ->where('competidors.id',$request->competidor_id)
@@ -114,16 +113,7 @@ class InscripcionPruebaController extends Controller
             return back()->with('message','El alumno que estás intentando anotar no es de la misma categoria que requiere la prueba');
         }
 
-        if($checker_if_alumno_already_exist_in_competidor->count() > 0 ){
-            return back()->with('message','El alumno que estás intentando anotar ya esta registrado');
-        }else{
-            $competidor = new InscripcionPrueba;
-            $competidor->competencia_id = $request->competencia_id;
-            $competidor->competidor_id = $request->competidor_id;
-            $competidor->prueba_id = $request->prueba_id;
-            $competidor->save();
-            return back()->with('message','el alumno se registro en la prueba correctamente');
-        }
-       
+      
+        return $inscripcionPruebaRepository->validate_conditions_init($request);
     }
 }

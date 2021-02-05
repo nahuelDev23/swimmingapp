@@ -12,6 +12,7 @@
                 <div class="p-6 bg-white border-b border-gray-200">
                     <div class="grid grid-cols-2 gap-4">
                         <div>
+                        
                             @if (session()->has('message'))
                                 {{ session('message') }}
                             @endif
