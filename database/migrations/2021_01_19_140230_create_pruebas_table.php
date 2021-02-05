@@ -18,7 +18,7 @@ class CreatePruebasTable extends Migration
          */
         Schema::create('pruebas', function (Blueprint $table) {
             $table->id();
-            $table->integer('nombre_prueba');
+            $table->string('nombre_prueba');
             $table->integer('distancia');
             $table->string('estilo');
             $table->string('sexo');

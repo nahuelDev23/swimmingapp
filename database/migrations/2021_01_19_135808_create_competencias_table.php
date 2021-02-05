@@ -19,7 +19,7 @@ class CreateCompetenciasTable extends Migration
             $table->date('fecha_competencia');
             $table->text('detalle');
             $table->integer('carriles')->default(5);
-            $table->bool('estado')->default(1);
+            $table->boolean('estado')->default(1);
             $table->timestamps();
         });
     }
