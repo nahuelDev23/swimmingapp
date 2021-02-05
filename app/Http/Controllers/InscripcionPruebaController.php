@@ -96,8 +96,6 @@ class InscripcionPruebaController extends Controller
         ->select('alumnos.sexo')
         ->first();
 
-     
-
         $checker_prueba_sexo = Prueba::where('id',$request->prueba_id)->select('sexo')->first();
         
         if ($checker_prueba_sexo->sexo == 'VARONES') {
