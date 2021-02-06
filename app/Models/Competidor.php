@@ -47,11 +47,10 @@ class Competidor extends Model
         return $this->belongsTo(Prueba::class); 
     }
 
-    /**
-     * este es el nievo
-    */
     public function categoria()
     {
         return $this->belongsTo(Categoria::class); # un alumno pertenece a una categoria
     }
+
+   
 }

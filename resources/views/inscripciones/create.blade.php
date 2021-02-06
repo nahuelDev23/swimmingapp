@@ -43,35 +43,35 @@
                             @endforeach
                         </table>
 
-                        @foreach($rs as $index => $r)
-                        @if($r->count() != 0)
-                        <table class="table__resultados text-center">
-                            {{-- estoy pudiendo agregar a un competidor en una prueba donde no tiene un tiempoo registrado --}}
-                            <caption class="table__resultados_caption">Alumnos inscriptos a la prueba {{$r[0]->prueba->nombre_prueba}}</caption>
-                            <tr>
-                                <th>#</th>
-                                <th>N° Prueba</th>
-                                <th>Nombre</th>
-                                <th>Apellido</th>
-                                <th>Categoria</th>
-                                <th>Tiempo</th>
-                                <th>Club</th>
-                                <th>Sexo</th>
-                            </tr>
-                           @foreach($r as $i => $t)
-                                <tr class="table__resultados_tr">
-                                    <td>{{$i}}</td>
-                                    <td>{{$t->prueba->nombre_prueba}}</td>
-                                    <td>{{$t->competidor->alumno->nombre}}</td>
-                                    <td>{{$t->competidor->alumno->apellido}}</td>
-                                    <td>{{$t->competidor->prueba->categoria->nombre_categoria}}</td>
-                                    <td>{{$t->competidor->competidor_tiempo}}</td>
-                                    <td>{{$t->competidor->alumno->club->nombre_club}}</td>
-                                    <td>{{$t->competidor->alumno->sexo}}</td>
+                        @foreach($lista_alumnos_inscriptos_por_prueba as $index => $lista_alumnos_inscriptos)
+                            @if($lista_alumnos_inscriptos->count() != 0)
+                            <table class="table__resultados text-center">
+                                {{-- estoy pudiendo agregar a un competidor en una prueba donde no tiene un tiempoo registrado --}}
+                                <caption class="table__resultados_caption">Alumnos inscriptos a la prueba {{$lista_alumnos_inscriptos[0]->prueba->nombre_prueba}}</caption>
+                                <tr>
+                                    <th>#</th>
+                                    <th>N° Prueba</th>
+                                    <th>Nombre</th>
+                                    <th>Apellido</th>
+                                    <th>Categoria</th>
+                                    <th>Tiempo</th>
+                                    <th>Club</th>
+                                    <th>Sexo</th>
                                 </tr>
-                           @endforeach
-                        </table>
-                        @endif
+                                @foreach($lista_alumnos_inscriptos as $i => $lista)
+                                    <tr class="table__resultados_tr">
+                                        <td>{{$i}}</td>
+                                        <td>{{$lista->prueba->nombre_prueba}}</td>
+                                        <td>{{$lista->competidor->alumno->nombre}}</td>
+                                        <td>{{$lista->competidor->alumno->apellido}}</td>
+                                        <td>{{$lista->competidor->prueba->categoria->nombre_categoria}}</td>
+                                        <td>{{$lista->competidor->competidor_tiempo}}</td>
+                                        <td>{{$lista->competidor->alumno->club->nombre_club}}</td>
+                                        <td>{{$lista->competidor->alumno->sexo}}</td>
+                                    </tr>
+                                @endforeach
+                            </table>
+                            @endif
                         @endforeach
                       
                     </div>
