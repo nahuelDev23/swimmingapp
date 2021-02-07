@@ -7,16 +7,18 @@ use App\Models\Competidor;
 use App\Models\Prueba;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Collection;
-use Illuminate\Support\Facades\Auth;
+
 class InscripcionPruebaRepository
 {
     private $inscripcionPrueba;
     private $competidor;
+    private $prueba;
 
-    public function __construct(InscripcionPrueba  $inscripcionPrueba,Competidor $competidor)
+    public function __construct(InscripcionPrueba  $inscripcionPrueba,Competidor $competidor,Prueba $prueba)
     {
         $this->inscripcionPrueba = $inscripcionPrueba;
         $this->competidor = $competidor;
+        $this->prueba = $prueba;
     }
     public function validate_conditions_init($request): RedirectResponse
     {
@@ -73,22 +75,18 @@ class InscripcionPruebaRepository
     {
         $sexo = '';
        
-        $checker_alumno_sexo = Competidor::join('alumnos','competidors.alumno_id','=','alumnos.id')
-        ->where('competidors.id',$competido_id)
-        ->select('alumnos.sexo')
-        ->first();
-
-        $checker_prueba_sexo = Prueba::where('id',$prueba_id)->select('sexo')->first();
+        $alumno_sexo = $this->competidor->getAlumnoSexoInTableCompetidors($competido_id)->sexo;
+        $prueba_sexo = $this->prueba->getSexoPrueba($prueba_id)->sexo;
         
-        if ($checker_prueba_sexo->sexo == 'VARONES') {
+        if ($prueba_sexo == 'VARONES') {
             $sexo = 'M';
-        } else if ($checker_prueba_sexo->sexo == 'MUJERES') {
+        } else if ($prueba_sexo == 'MUJERES') {
             $sexo = 'F';
         } else {
             $sexo = '';
         };
 
-        if($sexo != $checker_alumno_sexo->sexo && strlen($sexo) != 0){
+        if($sexo != $alumno_sexo && strlen($sexo) != 0){
             return false;
         }
         return true;
@@ -105,31 +103,11 @@ class InscripcionPruebaRepository
 
     public function fill_competidor_select(int $competencia_id): Collection
     {
-        return $this->competidor->ByIfIsAdminOrUser($competencia_id);
+        return $this->competidor->ByIfIsAdminOrUserAllAlumnoWithTiempoAndPruebaRegister($competencia_id);
     }
 
     public function list_alumno_for_prueba(Collection $pruebas_de_la_competencia,int $competencia_id): Array
     {
-        $lista_alumnos_inscriptos_por_prueba = [];
-        if(Auth::user()->is_admin == 1){
-        foreach($pruebas_de_la_competencia as $p){
-            array_push($lista_alumnos_inscriptos_por_prueba, InscripcionPrueba::where('inscripcion_pruebas.competencia_id',$competencia_id)
-            ->where('inscripcion_pruebas.prueba_id',$p->id)
-            ->join('competidors','inscripcion_pruebas.competidor_id','=','competidors.id')
-            ->join('alumnos','competidors.alumno_id','=','alumnos.id')
-            ->get());
-        }
-        return $lista_alumnos_inscriptos_por_prueba;
-    }else{
-        foreach($pruebas_de_la_competencia as $p){
-            array_push($lista_alumnos_inscriptos_por_prueba, InscripcionPrueba::where('inscripcion_pruebas.competencia_id',$competencia_id)
-            ->where('inscripcion_pruebas.prueba_id',$p->id)
-            ->join('competidors','inscripcion_pruebas.competidor_id','=','competidors.id')
-            ->join('alumnos','competidors.alumno_id','=','alumnos.id')
-            ->where('alumnos.club_id', Auth::user()->club->id)
-            ->get());
-        }
-        return $lista_alumnos_inscriptos_por_prueba;
-    }
+        return $this->inscripcionPrueba->ByIfIsAdminOrUserListAlumnosByPrueba($pruebas_de_la_competencia, $competencia_id);
     }
 }

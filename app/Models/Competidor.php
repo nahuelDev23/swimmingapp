@@ -45,7 +45,7 @@ class Competidor extends Model
     }
 
 
-    public function ByIfIsAdminOrUser($competencia_id)
+    public function ByIfIsAdminOrUserAllAlumnoWithTiempoAndPruebaRegister($competencia_id)
     {
         if(Auth::user()->is_admin == 1){
             return $this->getAllAlumnoWithTiempoAndPruebaRegister($competencia_id);
@@ -53,7 +53,7 @@ class Competidor extends Model
             return $this->getAllAlumnoWithTiempoAndPruebaRegisterBySelfClubOfUser($competencia_id);
         }
     }
-    
+
     public function getAllAlumnoWithTiempoAndPruebaRegister($competencia_id)
     {
         return self::join('alumnos', 'competidors.alumno_id', '=', 'alumnos.id')
@@ -68,7 +68,7 @@ class Competidor extends Model
         return self::join('alumnos', 'competidors.alumno_id', '=', 'alumnos.id')
             ->join('pruebas', 'competidors.prueba_id', '=', 'pruebas.id')
             ->where('alumnos.club_id', Auth::user()->club->id)
-            ->where('competencia_id', $competencia_id)
+            ->where('competidors.competencia_id', $competencia_id)
             ->selectTiempoRegistedIdWithDataAlumnos()
             ->pluck('nombre', 'id');
     }
@@ -78,5 +78,13 @@ class Competidor extends Model
         return $query->selectRaw(
             'competidors.id,
             CONCAT(alumnos.nombre," ",alumnos.apellido," - ",alumnos.dni," - ",pruebas.nombre_prueba," - ",competidor_tiempo) as nombre');
+    }
+
+    public function getAlumnoSexoInTableCompetidors($competido_id): object
+    {
+        return self::join('alumnos','competidors.alumno_id','=','alumnos.id')
+        ->where('competidors.id',$competido_id)
+        ->select('alumnos.sexo')
+        ->first();
     }
 }

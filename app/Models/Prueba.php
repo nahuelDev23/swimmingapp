@@ -33,4 +33,9 @@ class Prueba extends Model
     {
         return $this->hasMany(Competidor::class); 
     }
+
+    public function getSexoPrueba($prueba_id) : object
+    {
+        return Prueba::where('id',$prueba_id)->select('sexo')->first();
+    }
 }
