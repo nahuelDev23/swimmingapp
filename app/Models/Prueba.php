@@ -38,4 +38,10 @@ class Prueba extends Model
     {
         return Prueba::where('id',$prueba_id)->select('sexo')->first();
     }
+
+    public function getCategoryIdOfPrueba($prueba_id) : object
+    {
+        return self::where('id', $prueba_id)->select('categoria_id')->first();
+    }
+   
 }

@@ -87,4 +87,12 @@ class Competidor extends Model
         ->select('alumnos.sexo')
         ->first();
     }
+
+    public function getCategoryIdOfAlumnoInTableCompetidors($competidor_id): object
+    {
+        return  self::join('alumnos', 'competidors.alumno_id', '=', 'alumnos.id')
+        ->where('competidors.id', $competidor_id)
+        ->select('alumnos.categoria_id')->first();
+    }
+   
 }

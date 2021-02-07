@@ -58,20 +58,18 @@ class InscripcionPruebaRepository
 
     public function validate_alumno_category($competidor_id, $prueba_id): bool
     {
-        $checker_alumno_category = Competidor::join('alumnos', 'competidors.alumno_id', '=', 'alumnos.id')
-            ->where('competidors.id', $competidor_id)
-            ->select('alumnos.categoria_id')->first();
+        $alumno_category = $this->competidor->getCategoryIdOfAlumnoInTableCompetidors($competidor_id)->categoria_id;
 
-        $checker_prueba_category = Prueba::where('id', $prueba_id)->select('categoria_id')->first();
-
-        if ($checker_alumno_category->categoria_id != $checker_prueba_category->categoria_id) {
+        $prueba_category = $this->prueba->getCategoryIdOfPrueba($prueba_id)->categoria_id;
+        
+        if ($alumno_category != $prueba_category) {
             return false;
         }
 
         return true;
     }
 
-    public function validate_alumno_sexo_in_prueba($competido_id,$prueba_id): bool
+    public function validate_alumno_sexo_in_prueba(int $competido_id,int $prueba_id): bool
     {
         $sexo = '';
        
