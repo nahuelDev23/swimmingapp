@@ -10,6 +10,14 @@ use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Auth;
 class InscripcionPruebaRepository
 {
+    private $inscripcionPrueba;
+    private $competidor;
+
+    public function __construct(InscripcionPrueba  $inscripcionPrueba,Competidor $competidor)
+    {
+        $this->inscripcionPrueba = $inscripcionPrueba;
+        $this->competidor = $competidor;
+    }
     public function validate_conditions_init($request): RedirectResponse
     {
         if (!$this->check_if_alumno_exist_in_inscripcion_prueba($request)) {
@@ -42,11 +50,7 @@ class InscripcionPruebaRepository
 
     public function check_if_alumno_exist_in_inscripcion_prueba($request): bool
     {
-        $response = InscripcionPrueba::where('competencia_id', $request->competencia_id)
-            ->where('competidor_id', $request->competidor_id)
-            ->where('prueba_id', $request->prueba_id)
-            ->first();
-
+        $response = $this->inscripcionPrueba->whereCompetenciaAndTiempoAndPrueba($request);
         return $response ? false : true;
     }
 
@@ -101,18 +105,7 @@ class InscripcionPruebaRepository
 
     public function fill_competidor_select(int $competencia_id): Collection
     {
-        if(Auth::user()->is_admin == 1){
-            return Competidor::join('alumnos','competidors.alumno_id','=','alumnos.id')
-            ->join('pruebas','competidors.prueba_id','=','pruebas.id')
-            ->where('competidors.competencia_id',$competencia_id)
-            ->selectRaw('competidors.id,CONCAT(alumnos.nombre," ",alumnos.apellido," - ",alumnos.dni," - ",pruebas.nombre_prueba," - ",competidor_tiempo) as nombre')->pluck('nombre', 'id');
-        }else{
-            return Competidor::join('alumnos','competidors.alumno_id','=','alumnos.id')
-            ->join('pruebas','competidors.prueba_id','=','pruebas.id')
-            ->where('alumnos.club_id', Auth::user()->club->id)
-            ->where('competencia_id',$competencia_id)
-            ->selectRaw('competidors.id,CONCAT(alumnos.nombre," ",alumnos.apellido," - ",alumnos.dni," - ",pruebas.nombre_prueba," - ",competidor_tiempo) as nombre')->pluck('nombre', 'id');
-        }
+        return $this->competidor->ByIfIsAdminOrUser($competencia_id);
     }
 
     public function list_alumno_for_prueba(Collection $pruebas_de_la_competencia,int $competencia_id): Array

@@ -23,4 +23,12 @@ class InscripcionPrueba extends Model
     {
         return $this->belongsTo(Prueba::class); 
     }
+
+    public function whereCompetenciaAndTiempoAndPrueba($request)
+    {
+        return self::where('competencia_id', $request->competencia_id)
+        ->where('competidor_id', $request->competidor_id)
+        ->where('prueba_id', $request->prueba_id)
+        ->first();
+    }
 }

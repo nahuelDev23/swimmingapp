@@ -2,22 +2,14 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Auth;
 
 class Competidor extends Model
 {
     use HasFactory;
-
-    // public function categoria()
-    // {
-    //     return $this->belongsTo(Categoria::class); # un Competidor pertenece a una categoria
-    // }
-
-    // public function club()
-    // {
-    //     return $this->belongsTo(Club::class); # un Competidor pertenece a un club
-    // }
 
     public function alumno()
     {
@@ -40,11 +32,11 @@ class Competidor extends Model
 
     public function inscripcionPrueba()
     {
-        return $this->hasMany(InscripcionPrueba::class); 
+        return $this->hasMany(InscripcionPrueba::class);
     }
     public function prueba()
     {
-        return $this->belongsTo(Prueba::class); 
+        return $this->belongsTo(Prueba::class);
     }
 
     public function categoria()
@@ -52,5 +44,39 @@ class Competidor extends Model
         return $this->belongsTo(Categoria::class); # un alumno pertenece a una categoria
     }
 
-   
+
+    public function ByIfIsAdminOrUser($competencia_id)
+    {
+        if(Auth::user()->is_admin == 1){
+            return $this->getAllAlumnoWithTiempoAndPruebaRegister($competencia_id);
+        }else{
+            return $this->getAllAlumnoWithTiempoAndPruebaRegisterBySelfClubOfUser($competencia_id);
+        }
+    }
+    
+    public function getAllAlumnoWithTiempoAndPruebaRegister($competencia_id)
+    {
+        return self::join('alumnos', 'competidors.alumno_id', '=', 'alumnos.id')
+            ->join('pruebas', 'competidors.prueba_id', '=', 'pruebas.id')
+            ->where('competidors.competencia_id', $competencia_id)
+            ->selectTiempoRegistedIdWithDataAlumnos()
+            ->pluck('nombre', 'id');
+    }
+
+    public function getAllAlumnoWithTiempoAndPruebaRegisterBySelfClubOfUser($competencia_id)
+    {
+        return self::join('alumnos', 'competidors.alumno_id', '=', 'alumnos.id')
+            ->join('pruebas', 'competidors.prueba_id', '=', 'pruebas.id')
+            ->where('alumnos.club_id', Auth::user()->club->id)
+            ->where('competencia_id', $competencia_id)
+            ->selectTiempoRegistedIdWithDataAlumnos()
+            ->pluck('nombre', 'id');
+    }
+
+    public function scopeSelectTiempoRegistedIdWithDataAlumnos(Builder $query):Builder
+    {
+        return $query->selectRaw(
+            'competidors.id,
+            CONCAT(alumnos.nombre," ",alumnos.apellido," - ",alumnos.dni," - ",pruebas.nombre_prueba," - ",competidor_tiempo) as nombre');
+    }
 }
