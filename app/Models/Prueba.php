@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -42,6 +43,25 @@ class Prueba extends Model
     public function getCategoryIdOfPrueba($prueba_id) : object
     {
         return self::where('id', $prueba_id)->select('categoria_id')->first();
+    }
+
+    public function checkIfNamePruebaIsRepeatInCompetenciaForStoreOrUpdate($competencia_id, $nombre_prueba, Prueba $prueba = null): object
+    {
+        return self::where('nombre_prueba', $nombre_prueba)
+        ->where('competencia_id', $competencia_id)
+        ->CheckIfINeedStoreOrUpdate($prueba)
+        ->get();
+    }
+    
+    public function scopeCheckIfINeedStoreOrUpdate(Builder $query, Prueba $prueba = null): Builder
+    {
+        if($prueba != null)
+        {
+            return $query->where('id', '!=', $prueba->id);
+        }
+
+        return $query;
+
     }
    
 }

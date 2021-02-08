@@ -17,7 +17,7 @@
     {!! FORM::select('nivel',['ESCUELA'=>'ESCUELA','PROMO'=>'PROMO'],null,['class'=>'form-control']) !!}
     <br>
     {!! FORM::label('categoria_id','Categoria') !!}
-    {!! FORM::select('categoria_id',$categorias,null,['class'=>'form-control']) !!}
+    {!! FORM::select('categoria_id',$categorias_select,null,['class'=>'form-control']) !!}
     <br>
 
     {!! FORM::hidden('competencia_id',$competencia_id,null,['class'=>'form-control']) !!}

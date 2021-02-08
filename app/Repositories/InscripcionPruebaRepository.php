@@ -89,7 +89,7 @@ class InscripcionPruebaRepository
         }
         return true;
     }
-    public function create($request)
+    public function create($request) : RedirectResponse
     {
         $competidor = new InscripcionPrueba;
         $competidor->competencia_id = $request->competencia_id;

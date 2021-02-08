@@ -38,7 +38,7 @@
                                 <th>Nivel</th>
                                 <th>Acción</th>
                             </tr>
-                            @foreach ($pruebas_de_la_competencia as $prueba)
+                            @foreach ($pruebas_de_la_competencia_table as $prueba)
                                 <tr class="table__resultados_tr">
                                     <td>{{ $prueba->nombre_prueba }}</td>
                                     <td>{{ $prueba->distancia }}</td>
