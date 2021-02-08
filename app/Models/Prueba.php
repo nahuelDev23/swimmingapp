@@ -52,6 +52,17 @@ class Prueba extends Model
         ->CheckIfINeedStoreOrUpdate($prueba)
         ->get();
     }
+    public function checkIfNameOfPruebaAlreadyExistInCompetenciaForStoreOrUpdate($request, Prueba $prueba = null): object
+    {
+        return  self::where('distancia', $request->distancia)
+        ->where('estilo', $request->estilo)
+        ->where('sexo', $request->sexo)
+        ->where('categoria_id', $request->categoria_id)
+        ->where('nivel', $request->nivel)
+        ->where('competencia_id', $request->competencia_id)
+        ->CheckIfINeedStoreOrUpdate($prueba)
+        ->first();
+    }
     
     public function scopeCheckIfINeedStoreOrUpdate(Builder $query, Prueba $prueba = null): Builder
     {

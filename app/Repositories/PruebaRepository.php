@@ -60,34 +60,9 @@ class PruebaRepository
 
     public function validateThatNotExistTwoPruebaIndenticalWithDifferentName($request,$prueba): bool
     {
-        if ($prueba != null) {
-        $check_if_register_is_repeat_for_update = Prueba::where('distancia', $request->distancia)
-            ->where('estilo', $request->estilo)
-            ->where('sexo', $request->sexo)
-            ->where('categoria_id', $request->categoria_id)
-            ->where('nivel', $request->nivel)
-            ->where('competencia_id', $request->competencia_id)
-            ->where('id', '!=',$prueba->id)
-            ->first();
-
-        if ($check_if_register_is_repeat_for_update != null) {
-            return false;
-        }
-    }
-    if ($prueba == null) {
-        $check_if_register_is_repeat_for_create = Prueba::where('distancia', $request->distancia)
-        ->where('estilo', $request->estilo)
-        ->where('sexo', $request->sexo)
-        ->where('categoria_id', $request->categoria_id)
-        ->where('nivel', $request->nivel)
-        ->where('competencia_id', $request->competencia_id)
-        ->first();
-
-    if ($check_if_register_is_repeat_for_create != null) {
+       if($this->prueba->checkIfNameOfPruebaAlreadyExistInCompetenciaForStoreOrUpdate($request,$prueba)->count() > 0){
         return false;
-    }
-    }
-    
+       }
         return true;
     }
 
