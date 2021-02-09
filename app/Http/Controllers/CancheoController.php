@@ -8,10 +8,9 @@ use Illuminate\Http\Request;
 class CancheoController extends Controller
 {
     public function edit(Cancheo $cancheo){
-        $tiempo = $cancheo->tiempo;
         return view('cancheos/edit',[
             'cancheo_id'=>$cancheo->id,
-            'tiempo' => $tiempo,
+            'tiempo' =>  $cancheo->tiempo,
         ]);
     }
 

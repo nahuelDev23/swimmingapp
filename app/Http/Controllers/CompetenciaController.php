@@ -8,6 +8,7 @@ use App\Models\Serie;
 use Illuminate\Http\Request;
 use App\Models\InscripcionPrueba;
 use App\Models\Cancheo;
+use App\Repositories\InscripcionPruebaRepository;
 use Illuminate\Support\Facades\Auth;
 
 class CompetenciaController extends Controller
@@ -18,9 +19,8 @@ class CompetenciaController extends Controller
             return view('users/reset-password');
          }
          else{
-            $competencias = Competencia::select('id', 'nombre_competencia', 'detalle', 'fecha_competencia')->get();
             return view('dashboard', [
-                'competencias' => $competencias,
+                'competencias' => Competencia::select('id', 'nombre_competencia', 'detalle', 'fecha_competencia')->get(),
             ]);
          }
        
@@ -54,10 +54,15 @@ class CompetenciaController extends Controller
         ]);
     }
 
-    public function generarSeriesCancheos(Competencia $competencia)
+    public function generarSeriesCancheos(Competencia $competencia,InscripcionPruebaRepository $inscripcionPruebaRepository)
     {
         $this->deleteSeriesPorCompetencia($competencia->id);
-       
+       /**
+        * estoy agrupando  de todos los incriptos los aptos por cada prueba para generar el cancheo en base a sus tiempos
+        */
+        /*
+        $inscripcionPruebaRepository->create
+        */
         $sexo = '';
     
         foreach ($competencia->pruebas as $prueba) {

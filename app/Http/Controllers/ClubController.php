@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\Club;
 use Illuminate\Http\Request;
+use App\Http\Requests\AddClubRequest;
+use App\Repositories\ClubRepository;
 
 class ClubController extends Controller
 {
@@ -22,17 +24,9 @@ class ClubController extends Controller
         ]);
     }
 
-    public function store(Request $request)
+    public function store(AddClubRequest $request,ClubRepository $clubRepository)
     {
-        $this->validate($request, [
-            'nombre_club' => 'required|unique:clubs,nombre_club',
-        ]);
-        $club = new Club;
-        #PRIMER LETRA EN MAYUS , RESTO MUNUS
-        $club->nombre_club = str_replace('\' ', '\'', ucwords(str_replace('\'', '\' ', strtolower($request->nombre_club))));
-        $club->save();
-
-        return back()->with('message','El club se agrego correctamente');
+       return  $clubRepository->create($request);
     }
 
     public function edit(Club $club)

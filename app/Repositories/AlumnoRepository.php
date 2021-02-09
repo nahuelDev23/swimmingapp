@@ -1,6 +1,7 @@
 <?php
 namespace App\Repositories;
 use App\Models\Alumno;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Facades\Auth;
 
 class AlumnoRepository
@@ -18,5 +19,14 @@ class AlumnoRepository
         
         $alumno->save();
 
+    }
+
+    public function getAllAlumnosDependIfAuthUserIsAdminOrNot() : Collection
+    {
+        if(Auth::user()->is_admin == 1){
+            return Alumno::all();
+        }else {
+            return Alumno::where('club_id',Auth::user()->club_id)->get();
+        }
     }
 }
