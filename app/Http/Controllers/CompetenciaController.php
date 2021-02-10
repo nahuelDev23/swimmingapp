@@ -6,8 +6,6 @@ use App\Models\Competencia;
 use App\Models\Prueba;
 use App\Models\Serie;
 use Illuminate\Http\Request;
-use App\Models\InscripcionPrueba;
-use App\Models\Cancheo;
 use App\Repositories\InscripcionPruebaRepository;
 use Illuminate\Support\Facades\Auth;
 
@@ -57,104 +55,17 @@ class CompetenciaController extends Controller
     public function generarSeriesCancheos(Competencia $competencia,InscripcionPruebaRepository $inscripcionPruebaRepository)
     {
         $this->deleteSeriesPorCompetencia($competencia->id);
-       /**
-        * estoy agrupando  de todos los incriptos los aptos por cada prueba para generar el cancheo en base a sus tiempos
-        */
-        /*
-        $inscripcionPruebaRepository->create
-        */
-        $sexo = '';
-    
-        foreach ($competencia->pruebas as $prueba) {
-            if ($prueba->sexo == 'VARONES') {
-                $sexo = 'M';
-            } else if ($prueba->sexo == 'MUJERES') {
-                $sexo = 'F';
-            } else {
-                $sexo = '';
-            };
+        $inscripcionPruebaRepository->createSeriesAndCancheoByPruebas($competencia);
 
-            if ($sexo != '') {
-                $competidoresAptos = InscripcionPrueba::join('competidors', 'inscripcion_pruebas.competidor_id', '=', 'competidors.id')
-                    ->where('inscripcion_pruebas.prueba_id', $prueba->id)
-                    ->where('competidors.competencia_id', $competencia->id)
-                    ->join('alumnos','competidors.alumno_id','=','alumnos.id')
-                    ->where('alumnos.categoria_id', $prueba->categoria_id)
-                    ->where('alumnos.sexo', $sexo)
-                    ->orderBy('competidors.competidor_tiempo', 'asc')
-                    ->get();
-                   
-                    
-            } else {
-                $competidoresAptos = InscripcionPrueba::join('competidors', 'inscripcion_pruebas.competidor_id', '=', 'competidors.id')
-                    ->where('inscripcion_pruebas.prueba_id', $prueba->id)
-                    ->where('competidors.competencia_id', $competencia->id)
-                    ->join('alumnos','competidors.alumno_id','=','alumnos.id')
-                    ->where('alumnos.categoria_id', $prueba->categoria_id)
-                    ->orderBy('competidors.competidor_tiempo', 'asc')
-                    ->get();
-            }
-           
-            $cancha = $competencia->carriles;
-
-            $rs = [];
-            foreach ($competidoresAptos as $item) {
-                array_push($rs, $item);
-            }
-           
-            /**
-             * ?array chunk tiene que recibir un array , si pongo $competidoresAptos al ser una coleccion no es valido
-             * ?por eso lo paso a rs , para que sea array..
-             */
-            $cantidad_series = round($competidoresAptos->count() / $cancha) == 0 ? 1 : round($competidoresAptos->count() / $cancha);
-            $cantidad_competidores =  round($competidoresAptos->count() / round($cantidad_series));
-            $cancheo_creacion = [];
-            if ($cantidad_competidores >= 7) {
-
-                $cancheo_creacion = array_chunk($rs, ($cantidad_competidores - 2));
-            } else if ($cantidad_competidores <= 4) {
-
-                $cancheo_creacion = $this->partition($rs, $cantidad_series);
-            }
-            $carriles = ['4', '3', '5', '2', '1', '6'];
-
-           
-            foreach ($cancheo_creacion as $index => $can) {
-
-                $s = new Serie;
-                $s->nombre_serie = 'Serie ' . $index;
-                $s->prueba_id = $prueba->id;
-                $s->competencia_id = $competencia->id;
-                $s->save();
-
-
-                foreach ($can as  $index => $c) {
-                    $canch = new Cancheo;
-                    $canch->carril = $carriles[$index];
-                    $canch->competidor_id = $c->competidor_id;
-                    $canch->serie_id = $s->id;
-                    $canch->competencia_id = $competencia->id;
-                    $canch->save();
-                }
-            }
-        }
+        /**
+         * new createSeriesAndCancheoByPruebas()->execute($competencia) 
+         * dentro de la clase llamo a deleteseriesCLASS
+         * 
+         */
         return back();
     }
 
-    public function partition($list, $p)
-    {
-        $listlen = count($list);
-        $partlen = floor($listlen / $p);
-        $partrem = $listlen % $p;
-        $partition = array();
-        $mark = 0;
-        for ($px = 0; $px < $p; $px++) {
-            $incr = ($px < $partrem) ? $partlen + 1 : $partlen;
-            $partition[$px] = array_slice($list, $mark, $incr);
-            $mark += $incr;
-        }
-        return $partition;
-    }
+
 
     public function deleteSeriesPorCompetencia($competencia_id){
             Serie::where('competencia_id',$competencia_id)->delete();

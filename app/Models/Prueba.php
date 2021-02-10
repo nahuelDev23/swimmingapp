@@ -61,7 +61,7 @@ class Prueba extends Model
         ->where('nivel', $request->nivel)
         ->where('competencia_id', $request->competencia_id)
         ->CheckIfINeedStoreOrUpdate($prueba)
-        ->first();
+        ->get();
     }
     
     public function scopeCheckIfINeedStoreOrUpdate(Builder $query, Prueba $prueba = null): Builder

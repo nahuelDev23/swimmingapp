@@ -6,6 +6,8 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Database\Eloquent\Builder;
+
 class InscripcionPrueba extends Model
 {
     use HasFactory;
@@ -69,5 +71,28 @@ class InscripcionPrueba extends Model
             ->get());
         }
         return $lista_alumnos_inscriptos_por_prueba;
+    }
+
+    public function getInscriptosPruebaFitForEachPruebaInCompetenciaOrderByTiempo($prueba,$sexo,$competenciaId)
+    {
+        return self::join('competidors', 'inscripcion_pruebas.competidor_id', '=', 'competidors.id')
+        ->where('inscripcion_pruebas.prueba_id', $prueba->id)
+        ->where('competidors.competencia_id', $competenciaId)
+        ->join('alumnos','competidors.alumno_id','=','alumnos.id')
+        ->where('alumnos.categoria_id', $prueba->categoria_id)
+        ->CheckIfSexoOfPruebaIsMixtoOrNot($sexo)
+        ->orderBy('competidors.competidor_tiempo', 'asc')
+        ->get();
+    }
+
+    public function scopeCheckIfSexoOfPruebaIsMixtoOrNot(Builder $query, $sexo): Builder
+    {
+        if($sexo != '')
+        {
+            return $query->where('alumnos.sexo', $sexo);
+        }
+
+        return $query;
+
     }
 }
