@@ -4,12 +4,12 @@ namespace App\Repositories\UsesCase\Competencia;
 use App\Models\Competencia;
 use App\Models\InscripcionPrueba;
 use App\Http\Helpers;
-use App\Models\Serie;
+
 use App\Models\Cancheo;
-use Illuminate\Support\Collection;
+
 use App\Repositories\UsesCase\Competencia\DeleteSeriesPorCompetencia;
 use App\Repositories\UsesCase\Serie\GenerarSerie;
-
+use App\Repositories\UsesCase\Cancheo\GenerarCancheo;
 
 class CreateSeriesAndCancheoByPruebas
 {
@@ -61,17 +61,12 @@ class CreateSeriesAndCancheoByPruebas
     public function generarSeriesYCancheos(Array $cancheoDeSeriesOrdernadoPorTiempo,int $pruebaId,int $competenciaId):void
     {
         foreach ($cancheoDeSeriesOrdernadoPorTiempo as $index => $cancheos) {
-
             $generarSerie = new GenerarSerie();
             $serieId = $generarSerie->execute($index,$pruebaId,$competenciaId);
 
-            foreach ($cancheos as  $index => $cancheo) {
-                $canch = new Cancheo;
-                $canch->carril = SELF::carrilesPorVelocidad[$index];
-                $canch->competidor_id = $cancheo->competidor_id;
-                $canch->serie_id = $serieId->id;
-                $canch->competencia_id = $competenciaId;
-                $canch->save();
+            foreach ($cancheos as  $index => $cancheos) {
+                $generarCancheo = new GenerarCancheo();
+                $generarCancheo->execute($cancheos,$competenciaId,$serieId->id,$index);
             }
         }
     }

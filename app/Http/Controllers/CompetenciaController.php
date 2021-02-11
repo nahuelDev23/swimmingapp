@@ -1,28 +1,23 @@
 <?php
 
 namespace App\Http\Controllers;
-
 use App\Models\Competencia;
 use App\Models\Prueba;
 use App\Models\Serie;
 use Illuminate\Http\Request;
 use App\Models\InscripcionPrueba;
 use App\Repositories\UsesCase\Competencia\CreateSeriesAndCancheoByPruebas;
+use App\Repositories\UsesCase\Competencia\Updater;
+use App\Repositories\UsesCase\Competencia\CheckIfNewUserResetDefatultPassword;
 use Illuminate\Support\Facades\Auth;
 
 class CompetenciaController extends Controller
 {
     public function index()
     {
-        if ((Auth::user()->password_changed_at == null)) {
-            return view('users/reset-password');
-         }
-         else{
-            return view('dashboard', [
-                'competencias' => Competencia::select('id', 'nombre_competencia', 'detalle', 'fecha_competencia')->get(),
-            ]);
-         }
-       
+        //? hacer q no pueda ver nada si no cambio el password
+        $changeDefaultPassword = new CheckIfNewUserResetDefatultPassword();
+        return  $changeDefaultPassword->execute();
     }
 
     public function create()
@@ -60,10 +55,6 @@ class CompetenciaController extends Controller
         return back();
     }
 
-
-
-
-
     public function edit(Competencia $competencia)
     {
         return view('competencias/edit',[
@@ -73,13 +64,10 @@ class CompetenciaController extends Controller
 
     public function update(Request $request,Competencia $competencia)
     {
-        $competencia->nombre_competencia = $request->nombre_competencia;
-        $competencia->fecha_competencia = $request->fecha_competencia;
-        $competencia->detalle = $request->detalle;
-        $competencia->carriles = $request->carriles;
-        $competencia->update();
-        return back()->with('message','La competencia se edito con exito');
+        $update = new Updater($request,$competencia);
+        return $update->execute();
     }
+
     public function destroy($id)
     {
         Competencia::find($id)->delete();
