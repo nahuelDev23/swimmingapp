@@ -23,17 +23,17 @@ class SerieController extends Controller
 
         ]);
     }
-    public function store(Request $request)
-    {
+    // public function store(Request $request)
+    // {
 
-        $serie = new Serie;
-        $serie->nombre_serie = $request->nombre_serie;
-        $serie->prueba_id = $request->prueba_id;
-        $serie->competencia_id = $request->competencia_id;
-        $serie->save();
+    //     $serie = new Serie;
+    //     $serie->nombre_serie = $request->nombre_serie;
+    //     $serie->prueba_id = $request->prueba_id;
+    //     $serie->competencia_id = $request->competencia_id;
+    //     $serie->save();
 
-        return redirect('competencias/' . $request->competencia_id);
-    }
+    //     return redirect('competencias/' . $request->competencia_id);
+    // }
 
     public function show(Serie $serie)
     {

@@ -6,7 +6,8 @@ use App\Models\Competencia;
 use App\Models\Prueba;
 use App\Models\Serie;
 use Illuminate\Http\Request;
-use App\Repositories\InscripcionPruebaRepository;
+use App\Models\InscripcionPrueba;
+use App\Repositories\UsesCase\Competencia\CreateSeriesAndCancheoByPruebas;
 use Illuminate\Support\Facades\Auth;
 
 class CompetenciaController extends Controller
@@ -52,24 +53,16 @@ class CompetenciaController extends Controller
         ]);
     }
 
-    public function generarSeriesCancheos(Competencia $competencia,InscripcionPruebaRepository $inscripcionPruebaRepository)
+    public function generarSeriesCancheos(Competencia $competencia,InscripcionPrueba $inscripcionPrueba)
     {
-        $this->deleteSeriesPorCompetencia($competencia->id);
-        $inscripcionPruebaRepository->createSeriesAndCancheoByPruebas($competencia);
-
-        /**
-         * new createSeriesAndCancheoByPruebas()->execute($competencia) 
-         * dentro de la clase llamo a deleteseriesCLASS
-         * 
-         */
+        $createSeriesAndCancheoByPruebas = new CreateSeriesAndCancheoByPruebas($competencia,$inscripcionPrueba);
+        $createSeriesAndCancheoByPruebas->execute();
         return back();
     }
 
 
 
-    public function deleteSeriesPorCompetencia($competencia_id){
-            Serie::where('competencia_id',$competencia_id)->delete();
-    }
+
 
     public function edit(Competencia $competencia)
     {
