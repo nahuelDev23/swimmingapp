@@ -40,7 +40,7 @@ Route::post('series',[SerieController::class,'store'])->middleware(['auth','rese
 Route::resource('users',UserController::class)->middleware(['auth','resetPassword']);
 
 Route::get('users/reset-password')->middleware(['auth','resetPassword'])->name('users.reset-password');
-Route::post('users/reset-password',[UserController::class,'reset_password'])->middleware(['auth','resetPassword'])->name('users.reset-password');
+Route::post('users/reset-password',[UserController::class,'reset_password'])->middleware(['auth'])->name('users.reset-password');
 
 
 Route::get('alumnos/create',[AlumnoController::class,'create'])->middleware(['auth','resetPassword'])->name('alumnos.create');
