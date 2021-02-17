@@ -3,37 +3,42 @@
 namespace App\Http\Controllers;
 
 use App\Models\Alumno;
-use Illuminate\Support\Facades\Auth;
+use App\Repositories\UsesCase\Alumno\Create;
+use App\Repositories\UsesCase\Alumno\getAllAlumnosDependIfAuthUserIsAdminOrNot;
+use App\Repositories\UsesCase\Categoria\getAllCategoriasOrderByNombreCategoriaListForSelectInput;
+use App\Repositories\UsesCase\Club\GetAllClubListForSelectInput;
 use App\Imports\AlumnosImport;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Http\Requests\AddAlumnoRequest;
 use App\Http\Requests\UpdateAlumnoRequest;
 use App\Http\Requests\ImportExcelRequest;
-use App\Repositories\AlumnoRepository;
-use App\Repositories\CategoriaRepository;
-use App\Repositories\ClubRepository;
+
 
 class AlumnoController extends Controller
 {
-    public function index(AlumnoRepository $alumnoRepository){
-     
+    public function index(){
+        $alumnos = new getAllAlumnosDependIfAuthUserIsAdminOrNot();
         return view('alumnos/index',[
-            'alumnos' => $alumnoRepository->getAllAlumnosDependIfAuthUserIsAdminOrNot(),
+            'alumnos' => $alumnos->execute(),
         ]);
     }
 
-    public function create(CategoriaRepository $categoriaRepository,ClubRepository $clubRepository){
+    public function create(){
+        $categoria = new getAllCategoriasOrderByNombreCategoriaListForSelectInput();
+        $clubs = new GetAllClubListForSelectInput();
         return view('alumnos/create',[
-            'categorias' => $categoriaRepository->getAllCategoriasOrderByNombreCategoriaListForSelectInput(),
-            'clubs' => $clubRepository->getAllClubListForSelectInput(),
+            'categorias' => $categoria->execute(),
+            'clubs' => $clubs->execute(),
         ]);
     }
 
-    public function edit(Alumno $alumno,CategoriaRepository $categoriaRepository,ClubRepository $clubRepository){
+    public function edit(Alumno $alumno){
+        $categoria = new getAllCategoriasOrderByNombreCategoriaListForSelectInput();
+        $clubs = new GetAllClubListForSelectInput();
         return view('alumnos/edit',[
             'alumno' => $alumno,
-            'categorias' => $categoriaRepository->getAllCategoriasOrderByNombreCategoriaListForSelectInput(),
-            'clubs' => $clubRepository->getAllClubListForSelectInput(),
+            'categorias' => $categoria->execute(),
+            'clubs' => $clubs->execute(),
         ]);
     }
 
@@ -42,8 +47,9 @@ class AlumnoController extends Controller
         return back()->with('message','El alumno se editó correctamente');
     }
 
-    public function store(AddAlumnoRequest $request,AlumnoRepository $AlumnoRepository){
-        $AlumnoRepository->create($request);
+    public function store(AddAlumnoRequest $request){
+        $store = new Create;
+        $store->create($request);
         return back()->with('success','El alumno se registro con exito');
     }
 

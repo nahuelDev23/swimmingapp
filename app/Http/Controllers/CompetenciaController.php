@@ -9,7 +9,7 @@ use App\Models\InscripcionPrueba;
 use App\Repositories\UsesCase\Competencia\CreateSeriesAndCancheoByPruebas;
 use App\Repositories\UsesCase\Competencia\Updater;
 use App\Repositories\UsesCase\Competencia\CheckIfNewUserResetDefatultPassword;
-use Illuminate\Support\Facades\Auth;
+
 
 class CompetenciaController extends Controller
 {

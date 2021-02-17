@@ -1,17 +1,16 @@
 <?php
-namespace App\Repositories;
+
+namespace App\Repositories\UsesCase\Club;
 use App\Models\Club;
 use  App\Http\Helpers;
-use Illuminate\Support\Collection;
 
-
-class ClubRepository
+class Create
 {
-    public function getAllClubListForSelectInput(): Collection 
+    public function execute($request)
     {
-       return Club::pluck('nombre_club','id');
+        return $this->create($request);
     }
-
+  
     public function create($request)
     {
         $club = new Club;
@@ -20,5 +19,4 @@ class ClubRepository
 
         return back()->with('message','El club se agrego correctamente');
     }
-
 }

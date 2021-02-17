@@ -15,7 +15,6 @@ class CreateSeriesAndCancheoByPruebas
 {
     private Competencia $competencia;
     private InscripcionPrueba $inscripcionPrueba;
-    private const carrilesPorVelocidad = ['4', '3', '5', '2', '1', '6'];
 
     public function __construct(Competencia $competencia,InscripcionPrueba $inscripcionPrueba)
     {

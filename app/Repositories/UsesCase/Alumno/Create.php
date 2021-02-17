@@ -1,12 +1,17 @@
 <?php
-namespace App\Repositories;
-use App\Models\Alumno;
-use Illuminate\Database\Eloquent\Collection;
-use Illuminate\Support\Facades\Auth;
 
-class AlumnoRepository
+namespace App\Repositories\UsesCase\Alumno;
+use App\Models\Alumno;
+use Illuminate\Support\Facades\Auth;
+class Create
 {
-    public function create($request) :void
+
+    public function execute($request)
+    {
+        return $this->create($request);
+    }
+  
+    public function create($request)
     {
         $alumno = new Alumno();
         $alumno->nombre = $request->nombre;
@@ -19,14 +24,6 @@ class AlumnoRepository
         
         $alumno->save();
 
-    }
-
-    public function getAllAlumnosDependIfAuthUserIsAdminOrNot() : Collection
-    {
-        if(Auth::user()->is_admin == 1){
-            return Alumno::all();
-        }else {
-            return Alumno::where('club_id',Auth::user()->club_id)->get();
-        }
+        back()->with('message','El Alumno se agrego correctamente');
     }
 }
