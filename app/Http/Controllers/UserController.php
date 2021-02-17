@@ -122,6 +122,7 @@ class UserController extends Controller
     }
 
     public function reset_password(Request $request){
+        dd($request);
         $this->validate($request, [
             'password' => 'required|confirmed|min:6',
         ]);
