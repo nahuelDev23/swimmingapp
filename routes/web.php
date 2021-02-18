@@ -29,12 +29,12 @@ Route::get('/', function () {
 });
 
 Route::get('/dashboard',[CompetenciaController::class,'index'])->middleware(['auth'])->name('dashboard');
-Route::get('competencias/generarSeriesCancheos/{competencia}',[CompetenciaController::class,'generarSeriesCancheos'])->middleware(['auth','resetPassword'])->name('competencias.generarSeriesCancheos');
+Route::get('competencias/generarSeriesCancheos/{competencia}',[CompetenciaController::class,'generarSeriesCancheos'])->where('competencia' , '[0-9]+')->middleware(['auth','resetPassword'])->name('competencias.generarSeriesCancheos');
 Route::resource('competencias',CompetenciaController::class)->middleware(['auth','resetPassword']);
 
 
-Route::get('series/{serie}',[SerieController::class,'show'])->middleware(['auth','resetPassword'])->name('series.show');
-Route::get('series/create/{competencia}',[SerieController::class,'create'])->middleware(['auth','resetPassword'])->name('series.create');
+Route::get('series/{serie}',[SerieController::class,'show'])->where('serie' , '[0-9]+')->middleware(['auth','resetPassword'])->name('series.show');
+Route::get('series/create/{competencia}',[SerieController::class,'create'])->where('competencia' , '[0-9]+')->middleware(['auth','resetPassword'])->name('series.create');
 Route::post('series',[SerieController::class,'store'])->middleware(['auth','resetPassword'])->name('series.store');
 
 Route::resource('users',UserController::class)->middleware(['auth','resetPassword']);
@@ -45,29 +45,29 @@ Route::post('users/reset-password',[UserController::class,'reset_password'])->mi
 
 Route::get('alumnos/create',[AlumnoController::class,'create'])->middleware(['auth','resetPassword'])->name('alumnos.create');
 Route::post('alumnos/import',[AlumnoController::class,'import'])->middleware(['auth','resetPassword'])->name('alumnos.import');
-Route::get('alumnos/{alumno}/edit',[AlumnoController::class,'edit'])->middleware(['auth','resetPassword'])->name('alumnos.edit');
+Route::get('alumnos/{alumno}/edit',[AlumnoController::class,'edit'])->where('alumno' , '[0-9]+')->middleware(['auth','resetPassword'])->name('alumnos.edit');
 Route::resource('alumnos',AlumnoController::class,['except' => ['create','edit']])->middleware(['auth','resetPassword']);
 
 
-Route::get('competidores/create/{competencia}',[CompetidorController::class,'create'])->middleware(['auth','resetPassword'])->name('competidores.create');
-Route::get('competidores/{competidore}/edit',[CompetidorController::class,'edit'])->middleware(['auth','resetPassword'])->name('competidores.edit');
+Route::get('competidores/create/{competencia}',[CompetidorController::class,'create'])->where('competencia' , '[0-9]+')->middleware(['auth','resetPassword'])->name('competidores.create');
+Route::get('competidores/{competidore}/edit',[CompetidorController::class,'edit'])->where('competidore' , '[0-9]+')->middleware(['auth','resetPassword'])->name('competidores.edit');
 Route::resource('competidores',CompetidorController::class,['except' => ['create','edit']])->middleware(['auth','resetPassword']);
 
-Route::get('inscripciones/create/{competencia}',[InscripcionPruebaController::class,'create'])->middleware(['auth','resetPassword'])->name('inscripciones.create');
+Route::get('inscripciones/create/{competencia}',[InscripcionPruebaController::class,'create'])->where('competencia' , '[0-9]+')->middleware(['auth','resetPassword'])->name('inscripciones.create');
 Route::get('inscripciones/edit',[InscripcionPruebaController::class,'edit'])->middleware(['auth','resetPassword'])->name('inscripciones.edit');
 Route::resource('inscripciones',InscripcionPruebaController::class,['except' => ['create','edit']])->middleware(['auth','resetPassword']);
 
-Route::get('cancheos/create/{competencia}',[CancheoController::class,'create'])->middleware(['auth','resetPassword'])->name('cancheos.create');
-Route::get('cancheos/{cancheo}/edit',[CancheoController::class,'edit'])->middleware(['auth'])->name('cancheos.edit');
+Route::get('cancheos/create/{competencia}',[CancheoController::class,'create'])->where('competencia' , '[0-9]+')->middleware(['auth','resetPassword'])->name('cancheos.create');
+Route::get('cancheos/{cancheo}/edit',[CancheoController::class,'edit'])->where('cancheo' , '[0-9]+')->middleware(['auth'])->name('cancheos.edit');
 Route::resource('cancheos',CancheoController::class,['except' => ['create','edit']])->middleware(['auth','resetPassword']);
 
-Route::get('pruebas/create/{competencia}',[PruebaController::class,'create'])->middleware(['auth','resetPassword'])->name('pruebas.create');
-Route::get('pruebas/{prueba}/edit',[PruebaController::class,'edit'])->middleware(['auth','resetPassword'])->name('pruebas.edit');
+Route::get('pruebas/create/{competencia}',[PruebaController::class,'create'])->where('competencia' , '[0-9]+')->middleware(['auth','resetPassword'])->name('pruebas.create');
+Route::get('pruebas/{prueba}/edit',[PruebaController::class,'edit'])->where('prueba' , '[0-9]+')->middleware(['auth','resetPassword'])->name('pruebas.edit');
 Route::resource('pruebas',PruebaController::class,['except' => ['create','edit']])->middleware(['auth','resetPassword']);
 
 Route::get('resultados/puntuaciongeneral',[ResultadoController::class,'puntuacionGeneral'])->middleware(['auth','resetPassword'])->name('resultados.puntuaciongeneral');
-Route::get('resultados/{competencia}',[ResultadoController::class,'show'])->middleware(['auth','resetPassword'])->name('resultados.show');
-Route::post('resultados/{competencia}',[ResultadoController::class,'store'])->middleware(['auth','resetPassword'])->name('resultados.store');
+Route::get('resultados/{competencia}',[ResultadoController::class,'show'])->where('competencia' , '[0-9]+')->middleware(['auth','resetPassword'])->name('resultados.show');
+Route::post('resultados/{competencia}',[ResultadoController::class,'store'])->where('competencia' , '[0-9]+')->middleware(['auth','resetPassword'])->name('resultados.store');
 
 Route::resource('resultados',ResultadoController::class,['except' => ['create','edit','show','store']])->middleware(['auth','resetPassword']);
 

@@ -44,18 +44,18 @@ class AlumnoController extends Controller
 
     public function update(UpdateAlumnoRequest $request ,Alumno $alumno){
         $alumno->update( $request->except(['_method','_token']));
-        return back()->with('message','El alumno se editó correctamente');
+        return redirect('alumnos')->with('success','El alumno se editó correctamente');
     }
 
     public function store(AddAlumnoRequest $request){
         $store = new Create;
         $store->create($request);
-        return back()->with('success','El alumno se registro con exito');
+        return redirect('alumnos')->with('success','El alumno se registro con exito');
     }
 
     public function destroy($id){
         Alumno::find($id)->delete();
-        return back()->with('success','El alumno se eliminó con exito');
+        return redirect('alumnos')->with('success','El alumno se eliminó con exito');
     }
     
     function import(ImportExcelRequest $request)

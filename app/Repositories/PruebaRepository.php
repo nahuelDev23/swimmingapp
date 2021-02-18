@@ -3,7 +3,6 @@
 namespace App\Repositories;
 
 use App\Models\Prueba;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Collection;
 

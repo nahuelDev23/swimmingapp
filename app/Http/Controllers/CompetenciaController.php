@@ -9,13 +9,13 @@ use App\Models\InscripcionPrueba;
 use App\Repositories\UsesCase\Competencia\CreateSeriesAndCancheoByPruebas;
 use App\Repositories\UsesCase\Competencia\Updater;
 use App\Repositories\UsesCase\Competencia\CheckIfNewUserResetDefatultPassword;
+use App\Repositories\UsesCase\Serie\GetSerieOfCompetenciaOrderByNombrePrueba;
 
 
 class CompetenciaController extends Controller
 {
     public function index()
     {
-        //? hacer q no pueda ver nada si no cambio el password
         $changeDefaultPassword = new CheckIfNewUserResetDefatultPassword();
         return  $changeDefaultPassword->execute();
     }
@@ -30,21 +30,13 @@ class CompetenciaController extends Controller
        Competencia::create($request->all());
        return back()->with('message','Competencia creada');
     }
-    public function show(Competencia $competencia)
+    public function show(Competencia $competencia,Serie $serie)
     {
-
-        $series = Serie::where('series.competencia_id',$competencia->id)
-        ->join('pruebas','series.prueba_id','=','pruebas.id')
-        ->select('series.id','series.nombre_serie','pruebas.nombre_prueba','series.competencia_id')
-        ->orderBy('pruebas.nombre_prueba','asc')
-        ->get();
-
-        
-        $pruebas = Prueba::where('competencia_id',$competencia->id)->orderBy('nombre_prueba')->get();
+        $series = new GetSerieOfCompetenciaOrderByNombrePrueba($serie);
         return view('competencias/show', [
             'competencia' => $competencia,
-            'series' => $series,
-            'pruebas' => $pruebas,
+            'series' => $series->execute($competencia->id),
+            'pruebas' => Prueba::where('competencia_id',$competencia->id)->orderBy('nombre_prueba')->get(),
         ]);
     }
 
@@ -64,8 +56,9 @@ class CompetenciaController extends Controller
 
     public function update(Request $request,Competencia $competencia)
     {
-        $update = new Updater($request,$competencia);
-        return $update->execute();
+        $update = new Updater($competencia);
+        $update->execute($request);
+        return redirect('dashboard')->with('success','La competencia se edito con exito');
     }
 
     public function destroy($id)

@@ -27,4 +27,13 @@ class Serie extends Model
     {
         return $this->belongsTo(Competencia::class); # una Serie pertenece a una competencia
     }
+    
+    public function getSeriesByCompetenciaOrderByNombrePrueba($competenciaId)
+    {
+        return self::where('series.competencia_id',$competenciaId)
+        ->join('pruebas','series.prueba_id','=','pruebas.id')
+        ->select('series.id','series.nombre_serie','pruebas.nombre_prueba','series.competencia_id')
+        ->orderBy('pruebas.nombre_prueba','asc')
+        ->get();
+    }
 }
