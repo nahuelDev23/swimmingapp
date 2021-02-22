@@ -61,7 +61,7 @@ class CompetenciaController extends Controller
         return redirect('dashboard')->with('success','La competencia se edito con exito');
     }
 
-    public function destroy($id)
+    public function destroy(int $id)
     {
         Competencia::find($id)->delete();
         return back()->with('success','La competencia se eliminó con exito');
