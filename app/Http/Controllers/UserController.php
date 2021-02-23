@@ -9,11 +9,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 class UserController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+   
     public function index()
     {
         $users = User::all();
@@ -22,11 +18,6 @@ class UserController extends Controller
         ]);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function create()
     {
         $clubs = Club::pluck('nombre_club','id');
@@ -35,12 +26,6 @@ class UserController extends Controller
         ]);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
     public function store(Request $request)
     {
         $this->validate($request, [
@@ -57,26 +42,16 @@ class UserController extends Controller
 
        $user->save();
 
-       return back()->with('success','El usuario se creo con exito');
+       return redirect('users')->with('success','El usuario se creo con exito');
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
+   
     public function show($id)
     {
         //
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
+   
     public function edit(User $user)
     {
         $clubs = Club::pluck('nombre_club','id');
@@ -86,13 +61,7 @@ class UserController extends Controller
         ]);
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
+   
     public function update(Request $request, User $user)
     {
         $this->validate($request, [
@@ -103,19 +72,13 @@ class UserController extends Controller
 
         $user->name = $request->name;
         $user->email = $request->email;
-        $user->club_id = $request->club_id; #no edita el club
+        $user->club_id = $request->club_id;
         $user->update();
 
         return back()->with('success','El usuario se editó con exito');
 
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function destroy($id)
     {
        

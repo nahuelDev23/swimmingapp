@@ -10,6 +10,9 @@
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 bg-white border-b border-gray-200">
                     <a href="{{Route('users.create')}}">Agregar Entrenador</a> 
+                      @if (session()->has('success'))
+                        {{ session('success') }}
+                    @endif
                     <table class="text-center">
                         <caption class="table__resultados_caption mb-4">Entrenadores de cada club</caption>
                         <tr>

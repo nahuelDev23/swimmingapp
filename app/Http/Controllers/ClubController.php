@@ -5,8 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Club;
 use Illuminate\Http\Request;
 use App\Http\Requests\AddClubRequest;
-use App\Repositories\ClubRepository;
-
+use App\Repositories\UsesCase\Club\Create;
 class ClubController extends Controller
 {
 
@@ -24,9 +23,10 @@ class ClubController extends Controller
         ]);
     }
 
-    public function store(AddClubRequest $request,ClubRepository $clubRepository)
+    public function store(AddClubRequest $request)
     {
-       return  $clubRepository->create($request);
+       $store = new Create();
+       return  $store->execute($request);
     }
 
     public function edit(Club $club)

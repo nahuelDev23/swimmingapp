@@ -2,22 +2,22 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Categoria;
+use App\Repositories\UsesCase\Categoria\getAllCategoriasOrderByNombreCategoriaListForSelectInput;
 use App\Models\Competencia;
 use App\Models\Prueba;
-use Illuminate\Http\Request;
 use App\Http\Requests\updatePruebaRequest;
 use App\Http\Requests\addPruebaRequest;
 use App\Repositories\PruebaRepository;
-use App\Repositories\CategoriaRepository;
+
 
 class PruebaController extends Controller
 {
-    public function create(Competencia $competencia,PruebaRepository $pruebaRepository,CategoriaRepository $categoriaRepository)
+    public function create(Competencia $competencia,PruebaRepository $pruebaRepository)
     {
+        $categoria = new getAllCategoriasOrderByNombreCategoriaListForSelectInput();
         return view('pruebas/create',[
             'competencia_id' => $competencia->id,
-            'categorias_select' =>  $categoriaRepository->getAllCategoriasOrderByNombreCategoriaListForSelectInput(),
+            'categorias_select' =>  $categoria->execute(),
             'pruebas_de_la_competencia_table'=>$pruebaRepository->getAllPruebasOfCompetenciaOrderByNombrePrueba($competencia->id),
         ]);
     }
@@ -27,11 +27,12 @@ class PruebaController extends Controller
         return $pruebaRepository->validateStoreOrUpdatePrueba_init($request);
     }
 
-    public function edit(Prueba $prueba,CategoriaRepository $categoriaRepository)
+    public function edit(Prueba $prueba)
     {
+        $categoria = new getAllCategoriasOrderByNombreCategoriaListForSelectInput();
         return view('pruebas/edit',[
             'prueba' => $prueba,
-            'categorias_select' =>  $categoriaRepository->getAllCategoriasOrderByNombreCategoriaListForSelectInput(),
+            'categorias_select' =>  $categoria->execute(),
             'prueba_id'=>$prueba->id,
             'competencia_id'=>$prueba->competencia_id,
         ]);

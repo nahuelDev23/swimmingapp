@@ -11,9 +11,9 @@
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 bg-white border-b border-gray-200">
                    <a href="{{Route('alumnos.create')}}">Agregar Alumno</a>
-                   @foreach ($errors->all() as $message)
-                        {{ $message }}<br>
-                    @endforeach
+                     @if (session()->has('success'))
+                        {{ session('success') }}
+                    @endif
                    {!! Form::open(['route' => ['alumnos.import'],'method'=>'post', 'enctype' => 'multipart/form-data']) !!}
                         <input type="file" name="select_file">
                          <button type="submit">Importar alumnos desde archivo excel</button>
@@ -30,7 +30,6 @@
                         <th>fecha de nacimiento</th>
                         <th>Acciones</th>
                     </tr>
-                    {{-- {{dd($alumnos)}} --}}
                     @foreach ($alumnos as $alumno)
                         <tr class="table__resultados_tr">
                             <td>{{ $alumno->nombre }}</td>

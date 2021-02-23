@@ -19,3 +19,10 @@ composer require phpoffice/phpspreadsheet
 require maatwebsite/excel
 https://docs.laravel-excel.com/3.0/getting-started/installation.html
 https://www.webslesson.info/2019/02/import-excel-file-in-laravel.html
+
+# rutas seguras 
+https://www.laraveltip.com/hace-tus-rutas-mas-seguras-con-este-tip/
+
+https://www.laraveltip.com/accessors-y-appends-dos-caracteristicas-poderosas-de-eloquent/
+
+https://www.laraveltip.com/mejora-el-codigo-de-tus-controladores-con-clases-responsables/

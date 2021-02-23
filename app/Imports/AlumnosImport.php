@@ -40,7 +40,7 @@ class AlumnosImport implements ToModel, WithHeadingRow, WithValidation
         $alumno->categoria_id =  $get_categoria_id[0]->id;
         $alumno->club_id =   $get_club_id[0]->id;
         $alumno->sexo =  $row['sexo'];
-        $alumno->dni =  $row['dni'] != null ? $row['dni'] : rand(0,10000) ;
+        $alumno->dni =  $row['dni'] != null ? $row['dni'] : rand(0,10000);
         $alumno->fecha_nacimiento =  $row['fecha_nacimiento'] != null ? \PhpOffice\PhpSpreadsheet\Shared\Date::excelToDateTimeObject($row['fecha_nacimiento']) : null;
 
         $alumno->save();

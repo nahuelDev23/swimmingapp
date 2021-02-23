@@ -3,8 +3,7 @@
 namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
-use App\Models\Alumno;
-use App\Observers\AlumnoObserver;
+use Illuminate\Support\Facades\Schema;
 class AppServiceProvider extends ServiceProvider
 {
     /**
@@ -25,5 +24,6 @@ class AppServiceProvider extends ServiceProvider
     public function boot()
     {
         // Alumno::observe(AlumnoObserver::class);
+        Schema::defaultStringLength(191);
     }
 }
