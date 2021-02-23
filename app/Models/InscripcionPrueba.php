@@ -83,6 +83,7 @@ class InscripcionPrueba extends Model
         ->CheckIfSexoOfPruebaIsMixtoOrNot($sexo)
         ->orderBy('competidors.competidor_tiempo', 'asc')
         ->get();
+
     }
 
     public function scopeCheckIfSexoOfPruebaIsMixtoOrNot(Builder $query, $sexo): Builder

@@ -20,6 +20,7 @@ class GenerarCancheo
         $cancheo->serie_id = $serieId;
         $cancheo->competencia_id = $competenciaId;
         $cancheo->save();
+        
 }
 
 }

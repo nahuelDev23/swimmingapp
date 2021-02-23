@@ -1,24 +1,22 @@
 <?php
 
 namespace App\Http\Controllers;
-
 use App\Models\Alumno;
-use Illuminate\Support\Facades\Auth;
 use App\Imports\AlumnosImport;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Http\Requests\AddAlumnoRequest;
 use App\Http\Requests\UpdateAlumnoRequest;
 use App\Http\Requests\ImportExcelRequest;
-use App\Repositories\AlumnoRepository;
 use App\Repositories\CategoriaRepository;
 use App\Repositories\ClubRepository;
-
+use App\Repositories\UsesCase\Alumno\Creater;
+use App\Repositories\UsesCase\Alumno\getAllDependIfAuthUserIsAdminOrNot;
 class AlumnoController extends Controller
 {
-    public function index(AlumnoRepository $alumnoRepository){
-     
+    public function index(){
+        $getAlumnos = new getAllDependIfAuthUserIsAdminOrNot;
         return view('alumnos/index',[
-            'alumnos' => $alumnoRepository->getAllAlumnosDependIfAuthUserIsAdminOrNot(),
+            'alumnos' => $getAlumnos->execute(),
         ]);
     }
 
@@ -42,8 +40,9 @@ class AlumnoController extends Controller
         return back()->with('message','El alumno se editó correctamente');
     }
 
-    public function store(AddAlumnoRequest $request,AlumnoRepository $AlumnoRepository){
-        $AlumnoRepository->create($request);
+    public function store(AddAlumnoRequest $request){
+        $creater = new Creater;
+        $creater->execute($request);
         return back()->with('success','El alumno se registro con exito');
     }
 

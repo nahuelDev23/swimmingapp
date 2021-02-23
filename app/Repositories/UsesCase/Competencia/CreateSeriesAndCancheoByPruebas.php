@@ -4,9 +4,6 @@ namespace App\Repositories\UsesCase\Competencia;
 use App\Models\Competencia;
 use App\Models\InscripcionPrueba;
 use App\Http\Helpers;
-
-use App\Models\Cancheo;
-
 use App\Repositories\UsesCase\Competencia\DeleteSeriesPorCompetencia;
 use App\Repositories\UsesCase\Serie\GenerarSerie;
 use App\Repositories\UsesCase\Cancheo\GenerarCancheo;
@@ -15,7 +12,6 @@ class CreateSeriesAndCancheoByPruebas
 {
     private Competencia $competencia;
     private InscripcionPrueba $inscripcionPrueba;
-    private const carrilesPorVelocidad = ['4', '3', '5', '2', '1', '6'];
 
     public function __construct(Competencia $competencia,InscripcionPrueba $inscripcionPrueba)
     {

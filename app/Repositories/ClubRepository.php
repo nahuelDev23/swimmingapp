@@ -1,7 +1,7 @@
 <?php
 namespace App\Repositories;
 use App\Models\Club;
-use  App\Http\Helpers;
+use App\Http\Helpers;
 use Illuminate\Support\Collection;
 
 
