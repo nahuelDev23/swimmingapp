@@ -3,6 +3,7 @@
 namespace Tests\Feature;
 
 use App\Models\User;
+use App\Models\Club;
 use Illuminate\Auth\Notifications\ResetPassword;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Notification;
@@ -23,7 +24,8 @@ class PasswordResetTest extends TestCase
     {
         Notification::fake();
 
-        $user = User::factory()->create();
+        $club = Club::factory()->create();
+        $user = User::factory()->create(['club_id' => $club->id]);
 
         $this->post('/forgot-password', ['email' => $user->email]);
 
@@ -34,7 +36,8 @@ class PasswordResetTest extends TestCase
     {
         Notification::fake();
 
-        $user = User::factory()->create();
+        $club = Club::factory()->create();
+        $user = User::factory()->create(['club_id' => $club->id]);
 
         $this->post('/forgot-password', ['email' => $user->email]);
 
@@ -51,7 +54,8 @@ class PasswordResetTest extends TestCase
     {
         Notification::fake();
 
-        $user = User::factory()->create();
+        $club = Club::factory()->create();
+        $user = User::factory()->create(['club_id' => $club->id]);
 
         $this->post('/forgot-password', ['email' => $user->email]);
 

@@ -3,6 +3,7 @@
 namespace Tests\Feature;
 
 use App\Models\User;
+use App\Models\Club;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Auth\Events\Verified;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -16,8 +17,10 @@ class EmailVerificationTest extends TestCase
 
     public function test_email_verification_screen_can_be_rendered()
     {
+        $club = Club::factory()->create();
         $user = User::factory()->create([
             'email_verified_at' => null,
+            'club_id' => $club->id,
         ]);
 
         $response = $this->actingAs($user)->get('/verify-email');
@@ -28,9 +31,10 @@ class EmailVerificationTest extends TestCase
     public function test_email_can_be_verified()
     {
         Event::fake();
-
+        $club = Club::factory()->create();
         $user = User::factory()->create([
             'email_verified_at' => null,
+            'club_id' => $club->id,
         ]);
 
         $verificationUrl = URL::temporarySignedRoute(
@@ -48,8 +52,10 @@ class EmailVerificationTest extends TestCase
 
     public function test_email_is_not_verified_with_invalid_hash()
     {
+        $club = Club::factory()->create();
         $user = User::factory()->create([
             'email_verified_at' => null,
+            'club_id' => $club->id,
         ]);
 
         $verificationUrl = URL::temporarySignedRoute(

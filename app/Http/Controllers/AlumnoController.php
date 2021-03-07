@@ -16,6 +16,7 @@ use App\Http\Requests\ImportExcelRequest;
 class AlumnoController extends Controller
 {
     public function index(){
+
         $alumnos = new getAllAlumnosDependIfAuthUserIsAdminOrNot();
         return view('alumnos/index',[
             'alumnos' => $alumnos->execute(),
@@ -49,11 +50,14 @@ class AlumnoController extends Controller
     public function store(AddAlumnoRequest $request){
         $store = new Create;
         $store->create($request);
-        return redirect('alumnos')->with('success','El alumno se registro con exito');
+         return redirect('alumnos')->with('success','El alumno se registro con exito!!');
     }
 
-    public function destroy($id){
-        Alumno::find($id)->delete();
+    public function destroy(Alumno $alumno){
+
+        $this->authorize('delete',$alumno);
+
+        $alumno->delete();
         return redirect('alumnos')->with('success','El alumno se eliminó con exito');
     }
     

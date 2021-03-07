@@ -3,6 +3,7 @@
 namespace Tests\Feature;
 
 use App\Models\User;
+use App\Models\Club;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
@@ -20,7 +21,8 @@ class AuthenticationTest extends TestCase
 
     public function test_users_can_authenticate_using_the_login_screen()
     {
-        $user = User::factory()->create();
+        $club = Club::factory()->create();
+        $user = User::factory()->create(['club_id' => $club->id]);
 
         $response = $this->post('/login', [
             'email' => $user->email,
@@ -33,7 +35,8 @@ class AuthenticationTest extends TestCase
 
     public function test_users_can_not_authenticate_with_invalid_password()
     {
-        $user = User::factory()->create();
+        $club = Club::factory()->create();
+        $user = User::factory()->create(['club_id' => $club->id]);
 
         $this->post('/login', [
             'email' => $user->email,

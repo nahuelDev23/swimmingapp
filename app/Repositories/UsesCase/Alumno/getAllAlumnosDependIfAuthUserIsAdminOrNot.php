@@ -4,6 +4,7 @@ namespace App\Repositories\UsesCase\Alumno;
 use App\Models\Alumno;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Database\Eloquent\Collection;
+
 class getAllAlumnosDependIfAuthUserIsAdminOrNot
 {
 

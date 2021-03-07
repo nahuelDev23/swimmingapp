@@ -22,8 +22,6 @@ class Create
         $alumno->fecha_nacimiento = $request->fecha_nacimiento;
         $alumno->club_id = Auth::user()->is_admin == 1 ? $request->club_id : Auth::user()->club_id;
         
-        $alumno->save();
-
-        back()->with('message','El Alumno se agrego correctamente');
+        return $alumno->save();
     }
 }
