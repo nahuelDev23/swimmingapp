@@ -10,6 +10,8 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use App\Repositories\UsesCase\Alumno\Create;
 use Tests\TestCase;
+use Maatwebsite\Excel\Facades\Excel;
+use App\Imports\AlumnosImport;
 
 class AlumnoControllerTest extends TestCase
 {
