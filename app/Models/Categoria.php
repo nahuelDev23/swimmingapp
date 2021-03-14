@@ -16,7 +16,7 @@ class Categoria extends Model
 
     public function alumnos()
     {
-        return $this->hasMany(Alumnos::class);
+        return $this->hasMany(Alumno::class);
     }
 
     public function pruebas()
