@@ -2,13 +2,7 @@
 
 namespace App\Repositories\UsesCase\Club;
 use App\Models\Club;
-<<<<<<< HEAD:app/Repositories/ClubRepository.php
-use App\Http\Helpers;
-use Illuminate\Support\Collection;
-
-=======
 use  App\Http\Helpers;
->>>>>>> 13e26ee5add33e438f16afee0fefbb9390c2316a:app/Repositories/UsesCase/Club/Create.php
 
 class Create
 {
