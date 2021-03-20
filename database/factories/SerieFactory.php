@@ -22,7 +22,7 @@ class SerieFactory extends Factory
     public function definition()
     {
         return [
-            //
+            'nombre_serie'=>$this->faker->name,
         ];
     }
 }

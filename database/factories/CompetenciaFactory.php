@@ -22,7 +22,11 @@ class CompetenciaFactory extends Factory
     public function definition()
     {
         return [
-            //
+            'nombre_competencia'=>$this->faker->name,
+            'fecha_competencia'=>$this->faker->date(),
+            'detalle'=>$this->faker->text,
+            'carriles'=>5,
+            'estado'=> 1,
         ];
     }
 }

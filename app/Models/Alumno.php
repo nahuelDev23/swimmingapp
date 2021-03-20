@@ -29,10 +29,10 @@ class Alumno extends Model
         return $this->hasMany(Competidor::class); 
     }
 
-    public function competencia()
-    {
-        return $this->belongsTo(Competencia::class); # un Competidor pertenece a una competencia
-    }
+    // public function competencia()
+    // {
+    //     return $this->belongsTo(Competencia::class); # un Competidor pertenece a una competencia
+    // }
 
     public function club()
     {

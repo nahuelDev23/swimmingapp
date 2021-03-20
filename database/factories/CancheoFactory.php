@@ -26,7 +26,7 @@ class CancheoFactory extends Factory
             'competidor_id'=>1,
             'serie_id'=>1,
             'competencia_id'=>1,
-            'tiempo' => time($format = 'H:i:s', $max = 'now'),
+            'tiempo' => time(),
         ];
     }
 }
